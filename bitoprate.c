@@ -3,11 +3,9 @@
 #include "HuffmanCode.h"
 
 void printBits(uint32_t data, uint32_t bitlen) {
-	//printf("data:%d len:%d bitcode:", data, bitlen);
 	for (uint32_t i = 0; i < bitlen; i++) {
 		printf("%d,", (data >> i) & 1);
 	}
-	//printf("\n");
 }
 
 void printBits_8(uint8_t data, uint8_t bitlen) {
@@ -20,26 +18,17 @@ void printBits_8(uint8_t data, uint8_t bitlen) {
 //1111 0000  data
 void moveBitsToContainer(uint8_t data, uint8_t dataStart, uint8_t dataLen, uint8_t container, uint8_t containerLen) {
 	uint8_t newdata = 0;
-	//手敲字高位在左
+	//掩码 注意高低位信息 手敲字高位在左
 	uint8_t maskslowtoHight[9] = { 0b11111111,0b11111110,0b11111100,0b11111000,0b11110000,0b11100000,0b11000000,0b10000000,0b00000000 };
 	uint8_t maskshighttoLow[9] = { 0b11111111,0b01111111,0b00111111,0b00011111,0b00001111,0b00000111,0b00000011,0b00000001,0b00000000 };
 	//对齐数据
 	uint8_t dataUnuse = 8 - dataLen;
-	////头尾补0
-	//data = data << dataUnuse;
-	//data = data >> dataUnuse;
+	
 	//移到需要补位的位置
 	data = data << containerLen;
-	printf("\ndata << containerLen:");
-	printBits(data, 8);
 	data = data & maskshighttoLow[8 - dataLen - containerLen];
-	printf("\ndata maskshighttoLow:");
-	printBits(data, 8);
 	data = data & maskslowtoHight[containerLen];
-	printf("\ndata maskslowtoHight:");
-	printBits(data, 8);
 	newdata = container | data;
-	printBits(newdata, 8);
 }
 
 void moveBitsToContainerMulti() {
@@ -49,7 +38,7 @@ void moveBitsToContainerMulti() {
 	uint16_t data = 0b0000000101001101;
 	uint8_t dataLen = 9;//考虑字节数据
 
-	//容器长度
+	//容器长度 字节
 	uint8_t containerMax = 2;
 	uint8_t container[2] = { 0b00001111 ,0b00000000 };
 	//当前容器总使用位长度
@@ -70,36 +59,20 @@ void moveBitsToContainerMulti() {
 
 		//比较小的数据内容块 决定要移动的数据
 		uint8_t min = dataLen < bitLeaveLen ? dataLen : bitLeaveLen;
-		printf("min: %d\n", min);
 
 		//临时变量赋值
 		uint8_t temp = (uint8_t)data;
-		printf("temp code:");
-		printBits(temp, min);
 		temp = (temp << bitUseLen) & maskslowtoHight[bitUseLen];
 
 		//当前字节数据
 		uint8_t currentIndex = containerLen / 8;
 		container[currentIndex] |= temp;
-		printf("currentIndex: %d\n", currentIndex);
 		//更新数据
 		containerLen += min;
 		data >>= min;
 		dataLen -= min;
 
-		printf("containerLen: %d\n", containerLen);
-		printf("dataLen: %d\n", dataLen);
-		printBits(container[currentIndex], 8);
 	}
-
-
-	printf("----- print ----\n");
-	for (uint32_t i = 0; i < containerMax; i++) {
-		printBits(container[i], 8);
-	}
-	printf("----- print ----\n");
-	printBits(*((uint16_t*)container), 16);
-
 }
 
 void BitArrayPush(struct bitArray* containerArr, uint32_t inData, uint8_t inDataLen) {
@@ -296,4 +269,19 @@ uint32_t BitPop(uint8_t* data, uint8_t getDataLen, uint32_t offset) {
 		currentWriteLen += D;
 	}
 	return outData;
+}
+
+void BitsArrayTest() {
+	printf("\n\n----------- print getbits -----------\n\n");
+
+	uint32_t testSize = 4;
+	struct bitArray testArr = { .data = (uint8_t*)malloc(testSize),.max = testSize,.len = 0,.bitlen = 0 };
+	struct bitArray* bitTestArr = &testArr;
+	bitTestArr->data[0] = 0b11001100;
+	bitTestArr->data[1] = 0b10101011;
+	bitTestArr->data[2] = 0b11100111;
+	bitTestArr->data[3] = 0b11000111;
+
+	BitArrayPop(bitTestArr, 9, 1);
+	printf("\n\n----------- print getbits -----------\n\n");
 }

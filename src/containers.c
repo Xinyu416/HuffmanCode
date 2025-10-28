@@ -168,6 +168,29 @@ uint32_t GetArrayElementCount(Array* arr) {
 	return arr->length;
 }
 
+/// <summary>
+/// 交换数组元素
+/// </summary>
+/// <param name="arr"></param>
+/// <param name="index1"></param>
+/// <param name="index2"></param>
+void ArrayExchange(Array* arr, int32_t index1, int32_t index2) {
+	//uint8_t* temp = (uint8_t*)malloc(sizeof(uint8_t) * arr->elementSize);
+	uint8_t* temp = arr->dataTemp;
+	memcpy(temp, arr->data + (index1 * arr->elementSize), arr->elementSize);
+	memcpy(arr->data + (index1 * arr->elementSize), arr->data + (index2 * arr->elementSize), arr->elementSize);
+	memcpy(arr->data + (index2 * arr->elementSize), temp, arr->elementSize);
+	//free(temp);
+}
+
+/// <summary>
+/// 数组分区
+/// </summary>
+/// <param name="arr"></param>
+/// <param name="startIndex"></param>
+/// <param name="endIndex"></param>
+/// <param name="compareFunc"></param>
+/// <returns></returns>
 int32_t ArrayPartition(Array* arr, int32_t startIndex, int32_t endIndex, bool (*compareFunc)(void*, void*)) {
 	//数组最后一个元素 基准值
 	uint8_t* x = arr->data + (endIndex * arr->elementSize);
@@ -187,28 +210,19 @@ int32_t ArrayPartition(Array* arr, int32_t startIndex, int32_t endIndex, bool (*
 	return i;
 }
 
+/// <summary>
+/// 数组快速排序
+/// </summary>
+/// <param name="arr"></param>
+/// <param name="startIndex"></param>
+/// <param name="endIndex"></param>
+/// <param name="compareFunc"></param>
 void ArrayQuickSort(Array* arr, int32_t startIndex, int32_t endIndex, bool (*compareFunc)(void*, void*)) {
 
 	if (startIndex >= endIndex)return;
 	int32_t q = ArrayPartition(arr, startIndex, endIndex, compareFunc);
 	ArrayQuickSort(arr, startIndex, (q - 1), compareFunc);
 	ArrayQuickSort(arr, (q + 1), endIndex, compareFunc);
-
-}
-
-/// <summary>
-/// 交换数组元素
-/// </summary>
-/// <param name="arr"></param>
-/// <param name="index1"></param>
-/// <param name="index2"></param>
-void ArrayExchange(Array* arr, int32_t index1, int32_t index2) {
-	//uint8_t* temp = (uint8_t*)malloc(sizeof(uint8_t) * arr->elementSize);
-	uint8_t* temp = arr->dataTemp;
-	memcpy(temp, arr->data + (index1 * arr->elementSize), arr->elementSize);
-	memcpy(arr->data + (index1 * arr->elementSize), arr->data + (index2 * arr->elementSize), arr->elementSize);
-	memcpy(arr->data + (index2 * arr->elementSize), temp, arr->elementSize);
-	//free(temp);
 }
 
 /// <summary>
@@ -223,6 +237,13 @@ void Exchange(uint32_t* arr, int32_t index1, int32_t index2) {
 	arr[index2] = temp;
 }
 
+/// <summary>
+/// 普通数组数据类型分区
+/// </summary>
+/// <param name="arr"></param>
+/// <param name="p"></param>
+/// <param name="r"></param>
+/// <returns></returns>
 int32_t Partition(uint32_t* arr, int32_t p, int32_t r) {
 
 	int32_t x = arr[r];
@@ -233,23 +254,11 @@ int32_t Partition(uint32_t* arr, int32_t p, int32_t r) {
 
 			i++;
 			Exchange(arr, i, j);
-			/*	printf("\n");
-				for (size_t k = p; k <= r; k++)
-				{
-					printf("%d,", arr[k]);
-				}
-				printf("\n");*/
 		}
 	}
 
 	i++;
 	Exchange(arr, i, r);
-	//printf("\n");
-	//for (size_t k = p; k <= r; k++)
-	//{
-	//	printf("%d,", arr[k]);
-	//}
-	//printf("\n");
 	return i;
 }
 

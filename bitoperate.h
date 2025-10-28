@@ -4,6 +4,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef __BITOPERATE__
+#define __BITOPERATE__
+
 struct bitArray {
 	uint8_t* data;
 	uint32_t max;
@@ -12,10 +15,14 @@ struct bitArray {
 	uint8_t  block[3];
 };
 
+/// <summary>
+/// 自定义文件数据头信息
+/// </summary>
 struct DataHeader {
 	uint16_t nodesNum;
 	uint32_t contentCodeLen;
 };
+
 
 /// <summary>
 /// 打印位信息
@@ -46,9 +53,32 @@ void moveBitsToContainer(uint8_t data, uint8_t dataStart,uint8_t dataLen,uint8_t
 /// </summary>
 void moveBitsToContainerMulti();
 
-//压入数据
+/// <summary>
+/// 压入位数据
+/// </summary>
+/// <param name="containerArr"></param>
+/// <param name="inData"></param>
+/// <param name="inDataLen"></param>
 void BitArrayPush(struct bitArray* containerArr, uint32_t inData, uint8_t inDataLen);
 
+/// <summary>
+/// 取出数组位数据
+/// </summary>
+/// <param name="containerArr"></param>
+/// <param name="getDataLen"></param>
+/// <param name="offset"></param>
+/// <returns></returns>
 uint32_t BitArrayPop(struct bitArray* containerArr, uint8_t getDataLen,uint32_t offset);
 
+/// <summary>
+/// 取出位数据
+/// </summary>
+/// <param name="data"></param>
+/// <param name="getDataLen"></param>
+/// <param name="offset"></param>
+/// <returns></returns>
 uint32_t BitPop(uint8_t* data, uint8_t getDataLen, uint32_t offset);
+
+void BitsArrayTest();
+
+#endif 

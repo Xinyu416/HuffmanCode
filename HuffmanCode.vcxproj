@@ -145,6 +145,7 @@
     <ClCompile Include="fileRead.c" />
     <ClCompile Include="HuffmanCode.c" />
     <ClCompile Include="linklist.c" />
+    <ClCompile Include="src\coding.c" />
     <ClCompile Include="src\containers.c" />
     <ClCompile Include="test.c" />
     <ClCompile Include="testbits.c" />
@@ -153,6 +154,7 @@
     <ClInclude Include="bitoperate.h" />
     <ClInclude Include="fileRead.h" />
     <ClInclude Include="HuffmanCode.h" />
+    <ClInclude Include="include\coding.h" />
     <ClInclude Include="include\containers.h" />
     <ClInclude Include="linklist.h" />
   </ItemGroup>
