@@ -1,0 +1,2 @@
+C:\CProject\HuffmanCode\Debug\HuffmanCode.exe
+D:\QXY\cpp\HuffmanCode\Debug\HuffmanCode.exe

@@ -1,0 +1,14 @@
+﻿  test.c
+D:\QXY\cpp\HuffmanCode\test.c(218,24): warning C4129: “.”: 不可识别的字符转义序列
+D:\QXY\cpp\HuffmanCode\test.c(218,24): warning C4129: “)”: 不可识别的字符转义序列
+D:\QXY\cpp\HuffmanCode\test.c(386,32): warning C4020: “PrintTree”: 实参太多
+D:\QXY\cpp\HuffmanCode\test.c(387,36): warning C4020: “PrintTree”: 实参太多
+D:\QXY\cpp\HuffmanCode\test.c(395,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\HuffmanCode\test.c(395,35): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+D:\QXY\cpp\HuffmanCode\test.c(396,45): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\HuffmanCode\test.c(396,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+D:\QXY\cpp\HuffmanCode\test.c(691,13): warning C4022: “myFunction”: 指针与实参 1 不匹配
+D:\QXY\cpp\HuffmanCode\test.c(691,18): warning C4022: “myFunction”: 指针与实参 2 不匹配
+D:\QXY\cpp\HuffmanCode\test.c(720,1): warning C4047: “初始化”:“uint16_t *”与“int”的间接级别不同
+D:\QXY\cpp\HuffmanCode\test.c(727,1): warning C4047: “初始化”:“uint16_t *”与“int”的间接级别不同
+  HuffmanCode.vcxproj -> D:\QXY\cpp\HuffmanCode\Debug\HuffmanCode.exe
