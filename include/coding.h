@@ -1,5 +1,9 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
+
+#ifndef __CODING__
+#define __CODING__
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -8,10 +12,6 @@
 #include <math.h>
 #include "../linklist.h"
 #include "../bitoperate.h"
-
-#ifndef __CODING__
-#define __CODING__
-
 
 #define datasize 255
 

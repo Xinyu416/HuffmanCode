@@ -51,8 +51,9 @@ void PrintTree(Node* nodes, Node* node, uint32_t indent) {
 }
 
 void CollectData() {
-	//const char* content = "AACDEEGFDEGHKBK  AACDEEGFDEGHKBK 1155665 4433221 adfsksldfjsdf2io33-23049543-sdjdfjslaf;-32203432045 52 sfsdf2hhkjhkjyu AACDEEGFDEGHKBK  AACDEEGFDEGHKBK 1155665 4433221 adfsksldfjsdf2io33-23049543-sdjdfjslaf;-32203432045 52 sfsdf2hhkjhkjyu";
-	const char* content = "Robust Programming The following conditions may cause an exception: The path is not valid for one of the following reasons: it is a zero-length string, it contains only white space, it contains invalid characters, or it is a device path (starts with \.\) (ArgumentException). The path is not valid because it is Nothing (ArgumentNullException). destinationFileName is Nothing or an empty string (ArgumentNullException). The source file is not valid or does not exist (FileNotFoundException). The combined path points to an existing directory, the destination file exists and overwrite is set to False, a file in the target directory with the same name is in use, or the user does not have sufficient permissions to access the file (IOException). A file or directory name in the path contains a colon (:) or is in an invalid format (NotSupportedException). showUI is set to True, onUserCancel is set to ThrowException, and either the user has cancelled the operation or an unspecified I/O error occurs (OperationCanceledException). The path exceeds the system-defined maximum length (PathTooLongException). The user lacks necessary permissions to view the path (SecurityException). The user does not have required permission (UnauthorizedAccessException). See also MoveFile How to: Rename a File How to: Create a Copy of a File in a Different Directory How to: Parse File Paths Collaborate with us on GitHub The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide. .NET feedback .NET is an open source project. Select a link to provide feedback: Open a documentation issue Provide product feedback Additional resources Documentation How to: Rename a File - Visual Basic Learn about how to rename a file with the Visual Basic Runtime Library or the .NET base class library. How to: Parse File Paths - Visual Basic Learn more about: How to: Parse File Paths in Visual Basic How to: Delete a File - Visual Basic Learn more about: How to: Delete a File in Visual Basic Show 2 more";
+	//const char* content = "AACDEEGFDEGHKBK";
+	//const char* content = "Robust Programming The following conditions may cause an exception: The path is not valid for one of the following reasons: it is a zero-length string, it contains only white space, it contains invalid characters, or it is a device path (starts with \.\) (ArgumentException). The path is not valid because it is Nothing (ArgumentNullException). destinationFileName is Nothing or an empty string (ArgumentNullException). The source file is not valid or does not exist (FileNotFoundException). The combined path points to an existing directory, the destination file exists and overwrite is set to False, a file in the target directory with the same name is in use, or the user does not have sufficient permissions to access the file (IOException). A file or directory name in the path contains a colon (:) or is in an invalid format (NotSupportedException). showUI is set to True, onUserCancel is set to ThrowException, and either the user has cancelled the operation or an unspecified I/O error occurs (OperationCanceledException). The path exceeds the system-defined maximum length (PathTooLongException). The user lacks necessary permissions to view the path (SecurityException). The user does not have required permission (UnauthorizedAccessException). See also MoveFile How to: Rename a File How to: Create a Copy of a File in a Different Directory How to: Parse File Paths Collaborate with us on GitHub The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide. .NET feedback .NET is an open source project. Select a link to provide feedback: Open a documentation issue Provide product feedback Additional resources Documentation How to: Rename a File - Visual Basic Learn about how to rename a file with the Visual Basic Runtime Library or the .NET base class library. How to: Parse File Paths - Visual Basic Learn more about: How to: Parse File Paths in Visual Basic How to: Delete a File - Visual Basic Learn more about: How to: Delete a File in Visual Basic Show 2 more";
+	const char* content = "Robust Programming The following conditions may cause an exception: ";
 	//const char* content = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 	uint32_t len = strlen(content);
 
@@ -202,6 +203,7 @@ void CollectData() {
 		//printf("\nnode[%d] count: %d(child:%d)  ,type:%d,  data:%d \n", i, (nodes + i)->frequcey, (nodes + i)->childIndex, (nodes + i)->type, (nodes + i)->data);
 	}
 	
+	Coding(nodes,nodeNum,len,datas);
 }
 
 void Coding(Node*nodes,uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
@@ -223,21 +225,9 @@ void Coding(Node*nodes,uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 	printf("\n ------------- 打印编码  End -------------\n");
 	printf("\n");
 
-	//所有编码的长度 位数据
-	uint32_t codesLen = 0;
-	printf("\n-------------- print codeLens --------------\n\n");
-	for (uint32_t i = 0; i < 256; i++) {
-		codesLen += (codes + i)->len;
-		if ((codes + i)->len != 0)
-		{
-			//printf("codes[%d] : code: %d, len:%d\n", i, codes[i].code, codes[i].len);
-		}
-	}
-	printf("codeLen:%d\n", codesLen);
-	printf("\n-------------- print codeLens end --------------\n\n");
+
 	printf("\n--------------- 压入位数据 Start --------------\n\n");
 	uint32_t contentBitsLen = 0;
-	printf("len:%d\n", len);
 	//统计原文数据位长度
 	for (uint32_t i = 0; i < len; i++)
 	{
@@ -288,10 +278,7 @@ void Coding(Node*nodes,uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 	}
 	printf("\n\n--------------- 压入位数据 End --------------\n\n");
 
-	for (uint32_t i = 0; i < fileBytes; i++) {
-		/*printf("\ncontainerArr[%d],code:", i);
-		printBits_8(bitArr->data[i], 8);*/
-	}
+	ReadAndSaveDataFromContext(bitArr);
 }
 
 /// <summary>
@@ -365,15 +352,22 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	uint32_t buf = 0;
 	uint8_t type = 0;
 	uint8_t outdata = 0;
-
+	
+	printf("sizeof(header_read.nodesNum): %d \n", sizeof(header_read.nodesNum));
 	//读取头数据
 	header_read.nodesNum = BitArrayPop(bitArr, sizeof(header_read.nodesNum) * 8, offset);
 	offset += sizeof(header_read.nodesNum) * 8;
+
+	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
 	header_read.contentCodeLen = BitArrayPop(bitArr, sizeof(header_read.contentCodeLen) * 8, offset);
 	offset += sizeof(header_read.contentCodeLen) * 8;
 
+	printf("\nheader_read.contentCodeLen：%d\n", header_read.contentCodeLen);
+
 	uint32_t totalBits = header_read.nodesNum * 9 + header_read.contentCodeLen + sizeof(header_read.nodesNum) * 8 + sizeof(header_read.contentCodeLen) * 8;
+	printf("\ntotalBits：%d\n", totalBits);
 	uint32_t fileBytes = (uint32_t)ceilf((float)totalBits / 8.0f);
+	printf("\nfileBytes：%d\n", fileBytes);
 
 	Node* readNodes = (Node*)malloc(header_read.nodesNum * sizeof(Node));
 	for (uint32_t i = 0; i < header_read.nodesNum; i++)
@@ -387,10 +381,14 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 		readNodes[i].type = type;
 		(readNodes + i)->data = outdata;
 	}
+
+	printf("\noffset：%d\n", offset);
+	printf("\nheader_read.contentCodeLen：%d\n", header_read.contentCodeLen);
+	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
 	DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.contentCodeLen);
 
 	//写入数据到指定文件
-	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test.express";
+	const char* filename = "C:\\Users\\DRF\\Desktop\\test.express";
 	printf("\n写出文件到 %s:\n", filename);
 	FILE* writeStream = fopen(filename, "w+");
 	fwrite(bitArr->data, sizeof(uint8_t), fileBytes, writeStream);

@@ -1,11 +1,11 @@
+#ifndef __BITOPERATE__
+#define __BITOPERATE__
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
-
-#ifndef __BITOPERATE__
-#define __BITOPERATE__
 
 struct bitArray {
 	uint8_t* data;

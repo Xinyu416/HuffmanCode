@@ -82,7 +82,6 @@ void BitArrayPush(struct bitArray* containerArr, uint32_t inData, uint8_t inData
 
 	uint32_t data = inData;
 	uint8_t dataLen = inDataLen;
-
 	//ÈÝÆ÷
 	uint8_t containerMax = containerArr->max;
 	uint8_t containerLen = containerArr->len;

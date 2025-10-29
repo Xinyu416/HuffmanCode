@@ -1,4 +1,12 @@
-﻿  test.c
-C:\CProject\HuffmanCode\test.c(652,13): warning C4022: “myFunction”: 指针与实参 1 不匹配
-C:\CProject\HuffmanCode\test.c(652,18): warning C4022: “myFunction”: 指针与实参 2 不匹配
-  HuffmanCode.vcxproj -> C:\CProject\HuffmanCode\Debug\HuffmanCode.exe
+﻿  map.c
+D:\QXY\cpp\CODEC\src\map.c(16,36): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(46,30): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(46,33): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(46,37): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(46,38): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(52,1): warning C4047: “初始化”:“uint8_t **”与“uint8_t *”的间接级别不同
+D:\QXY\cpp\CODEC\src\map.c(70,1): warning C4244: “初始化”: 从“float”转换到“uint32_t”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(96,48): warning C4133: “=”: 从“uint16_t *”到“uint8_t *”的类型不兼容
+D:\QXY\cpp\CODEC\src\map.c(97,20): warning C4047: “=”:“uint8_t *”与“uint16_t”的间接级别不同
+D:\QXY\cpp\CODEC\src\map.c(101,9): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 2 拥有了类型“uint8_t *”
+  HuffmanCode.vcxproj -> D:\QXY\cpp\CODEC\Debug\HuffmanCode.exe

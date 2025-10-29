@@ -8,7 +8,7 @@
 /// <returns></returns>
 Array ArrayCreate(uint32_t elementSize) {
 	size_t count = 100000;
-	Array arr = { .data = (uint8_t*)malloc(elementSize * count),.dataTemp=(uint8_t*)malloc(elementSize * 1),.elementSize = elementSize,.length = 0,.size = count * elementSize };
+	Array arr = { .data = (uint8_t*)malloc(elementSize * count),.dataTemp = (uint8_t*)malloc(elementSize * 1),.elementSize = elementSize,.length = 0,.size = count * elementSize };
 	return arr;
 }
 
@@ -274,5 +274,4 @@ void QuickSort(uint32_t* arr, int32_t p, int32_t r) {
 	int32_t q = Partition(arr, p, r);
 	QuickSort(arr, p, (q - 1));
 	QuickSort(arr, (q + 1), r);
-
 }

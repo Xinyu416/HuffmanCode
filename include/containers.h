@@ -1,12 +1,17 @@
 #pragma once
 
+#ifndef __CONTAINERS__
+#define __CONTAINERS__
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <math.h>
 
 //typedef bool (*CompareFunc)(void*, void*);
+
 
 typedef struct array {
 	uint8_t* data;//数组元素
@@ -85,3 +90,6 @@ int32_t Partition(uint32_t* arr, int32_t p, int32_t r);
 /// 快速排序算法
 /// </summary>
 void QuickSort(uint32_t* arr, int32_t p, int32_t r);
+
+
+#endif
