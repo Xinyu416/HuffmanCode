@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <math.h>
 
+#define SlotNum 8
 
 /// <summary>
 /// 字符串转数字
@@ -30,23 +31,29 @@ inline uint32_t BKDRHash(const char* str)
 typedef struct mapElement {
 	uint32_t key;
 	uint8_t* value;//值
-	uint8_t* next;//链表结构重复则指向下一个元素
+	struct mapElement* next;//链表结构重复则指向下一个元素
 }MapElement;
 
 typedef struct map {
-	uint32_t key;
-	uint8_t** data;
-	uint32_t slotNum;//槽数量 用于公式计算
+	struct mapElement** data;//元素数组 指向头指针
+	//uint32_t slotNum;//槽数量 用于公式计算
+	uint32_t mapLen;
+	uint32_t valueSize;//元素值的字节大小
 }Map;
 
 Map CreateMap(uint32_t slotNum);
 
 void ReleaseMap(Map* map);
 
-uint32_t GenerateK(Map* map, const char* str);
+void AddMapElement(Map* map,const char* skey, void* value);
+
+bool RemoveMapElement(const char* skey);
+
+MapElement* FindMapElement(const char* skey);
+
+uint32_t GenerateMapIndex(Map* map, uint32_t key);
 
 void PrintMap(Map* map);
 
-void MapTest();
 
 #endif // !1

@@ -1,12 +1,14 @@
 ﻿  map.c
 D:\QXY\cpp\CODEC\src\map.c(16,36): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
-D:\QXY\cpp\CODEC\src\map.c(46,30): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
-D:\QXY\cpp\CODEC\src\map.c(46,33): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
-D:\QXY\cpp\CODEC\src\map.c(46,37): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
-D:\QXY\cpp\CODEC\src\map.c(46,38): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
-D:\QXY\cpp\CODEC\src\map.c(52,1): warning C4047: “初始化”:“uint8_t **”与“uint8_t *”的间接级别不同
-D:\QXY\cpp\CODEC\src\map.c(70,1): warning C4244: “初始化”: 从“float”转换到“uint32_t”，可能丢失数据
-D:\QXY\cpp\CODEC\src\map.c(96,48): warning C4133: “=”: 从“uint16_t *”到“uint8_t *”的类型不兼容
-D:\QXY\cpp\CODEC\src\map.c(97,20): warning C4047: “=”:“uint8_t *”与“uint16_t”的间接级别不同
-D:\QXY\cpp\CODEC\src\map.c(101,9): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 2 拥有了类型“uint8_t *”
+D:\QXY\cpp\CODEC\src\map.c(50,30): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(50,33): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(50,37): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(50,38): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+  test.c
+D:\QXY\cpp\CODEC\test.c(78,13): warning C4022: “myFunction”: 指针与实参 1 不匹配
+D:\QXY\cpp\CODEC\test.c(78,18): warning C4022: “myFunction”: 指针与实参 2 不匹配
+D:\QXY\cpp\CODEC\test.c(107,1): warning C4047: “初始化”:“uint16_t *”与“int”的间接级别不同
+D:\QXY\cpp\CODEC\test.c(114,1): warning C4047: “初始化”:“uint16_t *”与“int”的间接级别不同
+D:\QXY\cpp\CODEC\test.c(183,9): warning C4013: “MapTest”未定义；假设外部返回 int
+  正在生成代码...
   HuffmanCode.vcxproj -> D:\QXY\cpp\CODEC\Debug\HuffmanCode.exe
