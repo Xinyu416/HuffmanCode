@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <math.h>
 
-#define SlotNum 8
+#define SlotNum 10
 
 /// <summary>
 /// 字符串转数字
@@ -45,11 +45,25 @@ Map CreateMap(uint32_t slotNum);
 
 void ReleaseMap(Map* map);
 
-void AddMapElement(Map* map,const char* skey, void* value);
+void AddMapElement(Map* map, const char* skey, void* value);
 
-bool RemoveMapElement(const char* skey);
+bool RemoveMapElement(Map* map, const char* skey);
 
-MapElement* FindMapElement(const char* skey);
+MapElement* FindMapElement(Map* map, const char* skey);
+
+uint32_t* GetMapKeys(Map* map);
+
+void* GetMapValues(Map* map);
+
+uint32_t GetMapLength(Map* map);
+
+/// <summary>
+/// 通过数字key查找元素是否存在
+/// </summary>
+/// <param name="map"></param>
+/// <param name="key"></param>
+/// <returns></returns>
+MapElement* __ContainsMapElement(Map* map, uint32_t key);
 
 uint32_t GenerateMapIndex(Map* map, uint32_t key);
 
