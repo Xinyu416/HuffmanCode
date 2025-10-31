@@ -23,7 +23,7 @@ void moveBitsToContainer(uint8_t data, uint8_t dataStart, uint8_t dataLen, uint8
 	uint8_t maskshighttoLow[9] = { 0b11111111,0b01111111,0b00111111,0b00011111,0b00001111,0b00000111,0b00000011,0b00000001,0b00000000 };
 	//对齐数据
 	uint8_t dataUnuse = 8 - dataLen;
-	
+
 	//移到需要补位的位置
 	data = data << containerLen;
 	data = data & maskshighttoLow[8 - dataLen - containerLen];
@@ -83,8 +83,8 @@ void BitArrayPush(struct bitArray* containerArr, uint32_t inData, uint8_t inData
 	uint32_t data = inData;
 	uint8_t dataLen = inDataLen;
 	//容器
-	uint8_t containerMax = containerArr->max;
-	uint8_t containerLen = containerArr->len;
+	uint32_t containerMax = containerArr->max;
+	uint32_t containerLen = containerArr->len;
 	uint8_t bitUseLen = 0;
 	uint8_t bitLeaveLen = 0;
 
@@ -114,9 +114,8 @@ void BitArrayPush(struct bitArray* containerArr, uint32_t inData, uint8_t inData
 		data >>= min;
 		//当前数据长度更新
 		dataLen -= min;
-		containerArr->len = containerLen;
 	}
-
+	containerArr->len += inDataLen;
 	//printf("---------------- BitArrayPush ----------------\n\n");
 }
 
@@ -148,8 +147,8 @@ uint32_t BitArrayPop(struct bitArray* arr, uint8_t getDataLen, uint32_t offset) 
 		//printf("\nB:%d\n", B);
 		//复制到block当中向低位移除A的部分
 		tempBlock = arr->data[currentBytes];
-	/*	printf("\ntempBlock\n");
-		printBits(tempBlock, 8);*/
+		/*	printf("\ntempBlock\n");
+			printBits(tempBlock, 8);*/
 		tempBlock = tempBlock >> A;
 		/*printf("\ntempBlock >> A %d\n",A);
 		printBits(tempBlock, 8);*/
@@ -231,9 +230,9 @@ uint32_t BitPop(uint8_t* data, uint8_t getDataLen, uint32_t offset) {
 	uint8_t maskshighttoLow[9] = { 0b11111111,0b01111111,0b00111111,0b00011111,0b00001111,0b00000111,0b00000011,0b00000001,0b00000000 };
 
 	uint32_t outData = 0;
-	uint8_t currentWriteLen = 0;
+	uint32_t currentWriteLen = 0;
 	//当前字节（数组index）
-	uint8_t currentBytes = 0;
+	uint32_t currentBytes = 0;
 	//当前字节使用的位
 	uint8_t A = 0;
 	//当前字节剩余的位

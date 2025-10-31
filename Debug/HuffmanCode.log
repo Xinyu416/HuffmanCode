@@ -1,4 +1,6 @@
 ﻿  coding.c
+D:\QXY\cpp\CODEC\src\coding.c(55,24): warning C4129: “.”: 不可识别的字符转义序列
+D:\QXY\cpp\CODEC\src\coding.c(55,24): warning C4129: “)”: 不可识别的字符转义序列
 D:\QXY\cpp\CODEC\src\coding.c(214,32): warning C4020: “PrintTree”: 实参太多
 D:\QXY\cpp\CODEC\src\coding.c(215,36): warning C4020: “PrintTree”: 实参太多
 D:\QXY\cpp\CODEC\src\coding.c(223,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同

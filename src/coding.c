@@ -52,8 +52,8 @@ void PrintTree(Node* nodes, Node* node, uint32_t indent) {
 
 void CollectData() {
 	//const char* content = "AACDEEGFDEGHKBK";
-	//const char* content = "Robust Programming The following conditions may cause an exception: The path is not valid for one of the following reasons: it is a zero-length string, it contains only white space, it contains invalid characters, or it is a device path (starts with \.\) (ArgumentException). The path is not valid because it is Nothing (ArgumentNullException). destinationFileName is Nothing or an empty string (ArgumentNullException). The source file is not valid or does not exist (FileNotFoundException). The combined path points to an existing directory, the destination file exists and overwrite is set to False, a file in the target directory with the same name is in use, or the user does not have sufficient permissions to access the file (IOException). A file or directory name in the path contains a colon (:) or is in an invalid format (NotSupportedException). showUI is set to True, onUserCancel is set to ThrowException, and either the user has cancelled the operation or an unspecified I/O error occurs (OperationCanceledException). The path exceeds the system-defined maximum length (PathTooLongException). The user lacks necessary permissions to view the path (SecurityException). The user does not have required permission (UnauthorizedAccessException). See also MoveFile How to: Rename a File How to: Create a Copy of a File in a Different Directory How to: Parse File Paths Collaborate with us on GitHub The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide. .NET feedback .NET is an open source project. Select a link to provide feedback: Open a documentation issue Provide product feedback Additional resources Documentation How to: Rename a File - Visual Basic Learn about how to rename a file with the Visual Basic Runtime Library or the .NET base class library. How to: Parse File Paths - Visual Basic Learn more about: How to: Parse File Paths in Visual Basic How to: Delete a File - Visual Basic Learn more about: How to: Delete a File in Visual Basic Show 2 more";
-	const char* content = "Robust Programming The following conditions may cause an exception: ";
+	const char* content = "Robust Programming The following conditions may cause an exception: The path is not valid for one of the following reasons: it is a zero-length string, it contains only white space, it contains invalid characters, or it is a device path (starts with \.\) (ArgumentException). The path is not valid because it is Nothing (ArgumentNullException). destinationFileName is Nothing or an empty string (ArgumentNullException). The source file is not valid or does not exist (FileNotFoundException). The combined path points to an existing directory, the destination file exists and overwrite is set to False, a file in the target directory with the same name is in use, or the user does not have sufficient permissions to access the file (IOException). A file or directory name in the path contains a colon (:) or is in an invalid format (NotSupportedException). showUI is set to True, onUserCancel is set to ThrowException, and either the user has cancelled the operation or an unspecified I/O error occurs (OperationCanceledException). The path exceeds the system-defined maximum length (PathTooLongException). The user lacks necessary permissions to view the path (SecurityException). The user does not have required permission (UnauthorizedAccessException). See also MoveFile How to: Rename a File How to: Create a Copy of a File in a Different Directory How to: Parse File Paths Collaborate with us on GitHub The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide. .NET feedback .NET is an open source project. Select a link to provide feedback: Open a documentation issue Provide product feedback Additional resources Documentation How to: Rename a File - Visual Basic Learn about how to rename a file with the Visual Basic Runtime Library or the .NET base class library. How to: Parse File Paths - Visual Basic Learn more about: How to: Parse File Paths in Visual Basic How to: Delete a File - Visual Basic Learn more about: How to: Delete a File in Visual Basic Show 2 more";
+	//const char* content = "Robust Programming The following conditions may cause an exception: ";
 	//const char* content = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 	uint32_t len = strlen(content);
 
@@ -240,49 +240,68 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 	uint32_t header_contentCodeLen_bytes = sizeof(header.contentCodeLen);
 	printf("header_nodesNum_bytes:%d -- header_contentCodeLen_bytes:%d\n", header_nodesNum_bytes, header_contentCodeLen_bytes);
 
-	uint32_t totalBits = nodeNum * 9 + contentBitsLen + sizeof(header.nodesNum) * 8 + sizeof(header.contentCodeLen) * 8;
+	uint32_t totalBits = nodeNum * 9 + contentBitsLen + header_nodesNum_bytes * 8 + header_contentCodeLen_bytes * 8;
 
 	//用9个位装每个node节点的数据，1位装节点类型，8位装数据，类型 0 叶节点 data则为数据，类型 1 合并节点 data为子节点索引
 	//文件字节数
 	uint32_t fileBytes = (uint32_t)ceilf((float)totalBits / 8.0f);
 	printf("totalBits :%d ,fileBytes :%d \n", totalBits, fileBytes);
-	return;
 	struct bitArray arr = { .data = (uint8_t*)malloc(fileBytes),.max = fileBytes,.len = 0,.bitlen = 0 };
 	struct bitArray* bitArr = &arr;
 	uint32_t bitsBuf = 0;
 	Node* node = NULL;
 
 	//将头信息压入位数组
-	BitArrayPush(bitArr, header.nodesNum, sizeof(header.nodesNum) * 8);
-	BitArrayPush(bitArr, header.contentCodeLen, sizeof(header.contentCodeLen) * 8);
-	printf("nodesNum:%d , contentCodeLen %d\n", header.nodesNum, header.contentCodeLen);
+	BitArrayPush(bitArr, header.nodesNum, header_nodesNum_bytes * 8);
+	BitArrayPush(bitArr, header.contentCodeLen, header_contentCodeLen_bytes * 8);
+
+	printf("\nheaderPush over\n");
+	
+
 
 	//将树信息压入位数组
-
 	for (uint32_t i = 0; i < nodeNum; i++)
 	{
 		node = nodes + i;
 		bitsBuf = 0;
 		if (node->type == 0) {
+			//叶节点 位数据即data值
 			bitsBuf |= (uint32_t)node->data;
 		}
 		else {
+			//合并节点的数据是子节点索引
 			bitsBuf |= (uint32_t)node->childIndex;
 		}
-
+		//9位存储节点数据 type在高1位，data在低8位
 		bitsBuf |= (((uint32_t)node->type) << 8);
 		BitArrayPush(bitArr, bitsBuf, 9);
+		printf("\nnode[%d],type:%d,data:%d,char:%c [",i,node->type,node->data, node->data);
+		printBits(bitsBuf,9);
+		printf("]");
+		
 	}
+
+
 	printf("\n\n--------------- 压入content位数据 End --------------\n\n");
+	
+
 	bitsBuf = 0;
 	//原文数据压入位数组 不定长度的位信息
 	for (uint32_t i = 0; i < len; i++)
 	{
 		bitsBuf = codes[datas[i]].code;
 		BitArrayPush(bitArr, bitsBuf, codes[datas[i]].len);
+		printf("\nlen[%d]:bitsBuf/code:%d[", i, bitsBuf);
+		printBits(bitsBuf, codes[datas[i]].len);
+		printf("]");
+		uint16_t temp = (uint16_t)BitArrayPop(bitArr, 16, 0);
+		printf("\ntemp:%d\n", temp);
 	}
+		return;
 	printf("\n\n--------------- 压入位数据 End --------------\n\n");
+	
 
+	//从内存中读取数据并写出到文件
 	ReadAndSaveDataFromContext(bitArr);
 }
 
@@ -297,7 +316,7 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray* bitArr, uint32_t inOffset, uint32_t inContentBitLens) {
 	uint8_t readbit = 0;
 	Node* nodes = inNodes;
-	uint8_t offset = inOffset;
+	uint32_t offset = inOffset;
 	uint32_t contentBitLens = inContentBitLens;
 	Node* n0 = &inNodes[nodesNum - 2];//靠左 0
 	Node* n1 = &inNodes[nodesNum - 1];//靠右 1
@@ -347,6 +366,7 @@ void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray
 			//printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
 		}
 	}
+
 }
 
 void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
@@ -358,12 +378,14 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	uint8_t type = 0;
 	uint8_t outdata = 0;
 
-	printf("sizeof(header_read.nodesNum): %d \n", sizeof(header_read.nodesNum));
+	printf("\nsizeof(header_read.nodesNum): %d \n", sizeof(header_read.nodesNum));
 	//读取头数据
-	header_read.nodesNum = BitArrayPop(bitArr, sizeof(header_read.nodesNum) * 8, offset);
+	header_read.nodesNum = (uint16_t)BitArrayPop(bitArr, sizeof(header_read.nodesNum) * 8, offset);
 	offset += sizeof(header_read.nodesNum) * 8;
 
 	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
+	
+	
 	header_read.contentCodeLen = BitArrayPop(bitArr, sizeof(header_read.contentCodeLen) * 8, offset);
 	offset += sizeof(header_read.contentCodeLen) * 8;
 
@@ -386,27 +408,30 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 		readNodes[i].type = type;
 		(readNodes + i)->data = outdata;
 	}
-
 	printf("\noffset：%d\n", offset);
 	printf("\nheader_read.contentCodeLen：%d\n", header_read.contentCodeLen);
 	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
-	DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.contentCodeLen);
-
+	
+	//return;
+	//DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.contentCodeLen);
 	//写入数据到指定文件
+	/*uint16_t temp = (uint16_t)BitArrayPop(bitArr, 16, 0);
+	printf("\ntemp:%d\n", temp);
+	return;*/
 	const char* filename = "C:\\Users\\DRF\\Desktop\\test.express";
 	printf("\n写出文件到 %s:\n", filename);
 	FILE* writeStream = fopen(filename, "w+");
 	fwrite(bitArr->data, sizeof(uint8_t), fileBytes, writeStream);
 	fclose(writeStream);
 	printf("\n\n-------------------------------- 文件中写出数据  End -----------------------------------");
-
+	
 	printf("\n\n-------------------------------- 内存中读取数据  End -----------------------------------");
 }
 
 void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uint32_t inOffset, uint32_t inContentBitLens) {
 	uint8_t readbit = 0;
 	Node* nodes = inNodes;
-	uint8_t offset = inOffset;
+	uint32_t offset = inOffset;
 	uint32_t contentBitLens = inContentBitLens;
 	Node* n0 = &inNodes[nodesNum - 2];//靠左 0
 	Node* n1 = &inNodes[nodesNum - 1];//靠右 1
@@ -454,7 +479,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 		}
 
 		if (currentNode != NULL && currentNode->type == 0) {
-			printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
+			//printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
 		}
 	}
 }
@@ -462,17 +487,19 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 void DecodeFromFile() {
 
 	printf("\n\n-------------------------------- 文件中读取数据  Start -----------------------------------");
-	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test.express";
+	const char* filename = "C:\\Users\\DRF\\Desktop\\test.express";
 	struct DataHeader header_read_file = { .nodesNum = 0,.contentCodeLen = 0 };
 	//读取文件
 	FILE* readStream_file = fopen(filename, "rb");
 	if (readStream_file == NULL) {
-		printf("readStream is NULL");
+		printf("\nreadStream is NULL\n");
 	}
 
+	
 	//读取文件头文件
 	fread(&header_read_file.nodesNum, sizeof(header_read_file.nodesNum), 1, readStream_file);
 	fread(&header_read_file.contentCodeLen, sizeof(header_read_file.contentCodeLen), 1, readStream_file);
+
 
 
 	//节点数组数据指针
@@ -489,7 +516,9 @@ void DecodeFromFile() {
 	uint8_t type = 0;
 	uint8_t outdata = 0;
 
-	printf("header_read_file.nodesNum:%d\n", header_read_file.nodesNum);
+	printf("\nheader_read_file.nodesNum:%d\n", header_read_file.nodesNum);
+	printf("\nheader_read_file.contentCodeLen:%d\n", header_read_file.contentCodeLen);
+
 	for (uint32_t i = 0; i < header_read_file.nodesNum; i++)
 	{
 
@@ -512,4 +541,5 @@ void DecodeFromFile() {
 
 void TestCoding() {
 	CollectData();
+	//DecodeFromFile();
 }
