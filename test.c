@@ -178,7 +178,7 @@ int main() {
 	/*TestCustomArray();
 	TestCustomArray2();*/
 	//TestCustomArrayTestContainer();
-	//TestCoding();
+	TestCoding();
 	//printf("entry");
-	MapTest();
+	//MapTest();
 }

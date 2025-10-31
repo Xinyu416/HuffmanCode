@@ -202,11 +202,11 @@ void CollectData() {
 	for (uint32_t i = 0; i < nodeNum; i++) {
 		//printf("\nnode[%d] count: %d(child:%d)  ,type:%d,  data:%d \n", i, (nodes + i)->frequcey, (nodes + i)->childIndex, (nodes + i)->type, (nodes + i)->data);
 	}
-	
-	Coding(nodes,nodeNum,len,datas);
+	//编码
+	Coding(nodes, nodeNum, len, datas);
 }
 
-void Coding(Node*nodes,uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
+void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 
 	Code codes[256] = { 0 };
 	Node* tempNode = nodes + nodeNum - 1;
@@ -233,15 +233,20 @@ void Coding(Node*nodes,uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 	{
 		contentBitsLen += codes[datas[i]].len;
 	}
-	printf("contentBitsLen:%d\n", contentBitsLen);
+	printf("nodeNum:%d -- contentBitsLen:%d\n", nodeNum, contentBitsLen);
 
 	struct DataHeader header = { .nodesNum = nodeNum,.contentCodeLen = contentBitsLen };
+	uint32_t header_nodesNum_bytes = sizeof(header.nodesNum);
+	uint32_t header_contentCodeLen_bytes = sizeof(header.contentCodeLen);
+	printf("header_nodesNum_bytes:%d -- header_contentCodeLen_bytes:%d\n", header_nodesNum_bytes, header_contentCodeLen_bytes);
+
 	uint32_t totalBits = nodeNum * 9 + contentBitsLen + sizeof(header.nodesNum) * 8 + sizeof(header.contentCodeLen) * 8;
 
 	//用9个位装每个node节点的数据，1位装节点类型，8位装数据，类型 0 叶节点 data则为数据，类型 1 合并节点 data为子节点索引
 	//文件字节数
 	uint32_t fileBytes = (uint32_t)ceilf((float)totalBits / 8.0f);
 	printf("totalBits :%d ,fileBytes :%d \n", totalBits, fileBytes);
+	return;
 	struct bitArray arr = { .data = (uint8_t*)malloc(fileBytes),.max = fileBytes,.len = 0,.bitlen = 0 };
 	struct bitArray* bitArr = &arr;
 	uint32_t bitsBuf = 0;
@@ -352,7 +357,7 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	uint32_t buf = 0;
 	uint8_t type = 0;
 	uint8_t outdata = 0;
-	
+
 	printf("sizeof(header_read.nodesNum): %d \n", sizeof(header_read.nodesNum));
 	//读取头数据
 	header_read.nodesNum = BitArrayPop(bitArr, sizeof(header_read.nodesNum) * 8, offset);

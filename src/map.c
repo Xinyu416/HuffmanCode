@@ -68,16 +68,21 @@ void ReleaseMap(Map* map) {
 			{
 				temp = eNext;
 				eNext = eNext->next;
+
 				free(temp->value);
 				free(temp);
-				printf("\n free temp[%d]:", i);
+				temp->value = NULL;
+				temp = NULL;
+				//printf("\n free temp[%d]:", i);
 			}
+			free(e->value);
+			free(e);
+			e->value = NULL;
+			e = NULL;
 		}
-		printf("\n free e [%d]:", i);
-		free(e);
 	}
-	printf("\n free map.data");
 	free(map->data);
+	map->mapLen = 0;
 }
 
 void AddMapElement(Map* map, const char* skey, void* value) {
@@ -212,7 +217,7 @@ MapElement* __ContainsMapElement(Map* map, uint32_t key) {
 MapElement* FindMapElement(Map* map, const char* skey) {
 
 	uint32_t key = BKDRHash(skey);
-	printf("key:%d\n", key);
+	//printf("key:%d\n", key);
 	for (size_t i = 0; i < SlotNum; i++)
 	{
 		MapElement* e = map->data[i];
@@ -227,37 +232,35 @@ MapElement* FindMapElement(Map* map, const char* skey) {
 	return NULL;
 }
 
-uint32_t* GetMapKeys(Map* map) {
-	uint32_t* keys = (uint32_t*)malloc(map->mapLen);
-	uint32_t index = 0;
+uint32_t GetMapKeys(Map* map, uint32_t* mapKeys) {
+	uint32_t index = 0;//ÔªËØ¼ÆÊý
 	for (size_t i = 0; i < SlotNum; i++)
 	{
 		MapElement* e = map->data[i];
 		while (e)
 		{
-			printf("\nkey:%d\n", e->key);
-			keys[index] = e->key;
+			*(mapKeys + index) = e->key;
 			e = e->next;
 			index++;
 		}
 	}
-	return keys;
+	return index;
 }
 
-void* GetMapValues(Map* map) {
-	uint8_t* values = (uint8_t*)malloc(map->mapLen * map->valueSize);
+uint32_t GetMapValues(Map* map, void* mapValues) {
+	uint8_t* values = (uint8_t*)mapValues;
 	uint32_t index = 0;
 	for (size_t i = 0; i < SlotNum; i++)
 	{
 		MapElement* e = map->data[i];
 		while (e)
 		{
-			//memcpy(values[index*(map->valueSize)], e->value, map->valueSize);
+			memcpy(values + (index * map->valueSize), e->value, map->valueSize);
 			e = e->next;
 			index++;
 		}
 	}
-	return values;
+	return index;
 }
 
 
@@ -279,7 +282,6 @@ void PrintMap(Map* map) {
 		printf("\n[%d]:", i);
 		if (e) {
 			printf(" [%d,%d]", e->key, *((uint32_t*)(e->value)));
-			//printf("[%d]", e->key);
 			MapElement* eNext = e->next;
 			while (eNext)
 			{
@@ -290,60 +292,107 @@ void PrintMap(Map* map) {
 	}
 }
 
+void testLifeTime() {
+	for (size_t i = 0; i < 10000000; i++)
+	{
+		Map map = CreateMap(4);
+		uint32_t e0 = 60000;
+		uint32_t e1 = 61000;
+		uint32_t e2 = 62000;
+		uint32_t e3 = 33333;
+		uint32_t e4 = 44444;
+		uint32_t e5 = 55555;
+		uint32_t e6 = 11556;
+		uint32_t e7 = 44332;
+		uint32_t e8 = 12345;
+
+		AddMapElement(&map, "mnbv", &e0);
+		AddMapElement(&map, "abcd", &e1);
+		AddMapElement(&map, "geok", &e2);
+		AddMapElement(&map, "ffdd", &e3);
+		AddMapElement(&map, "test", &e4);
+		AddMapElement(&map, "next", &e5);
+		AddMapElement(&map, "prev", &e6);
+		AddMapElement(&map, "1155", &e7);
+		AddMapElement(&map, "uiyo", &e8);
+
+		PrintMap(&map);
+		ReleaseMap(&map);
+	}
+}
+
+void testRand() {
+
+	for (size_t i = 0; i < 100000; i++)
+	{
+		srand(time(NULL));
+		Map map = CreateMap(4);
+		for (size_t n = 0; n < 20; n++)
+		{
+			uint32_t v = (uint32_t)rand();
+			char skey[5] = "1234";
+			skey[0] = (char)(rand() % 25 + 65);;
+			skey[1] = (char)(rand() % 25 + 65);;
+			skey[2] = (char)(rand() % 25 + 65);;
+			skey[3] = (char)(rand() % 25 + 65);;
+			skey[4] = 0;
+
+			printf("[char:%s,", skey);
+			printf("v:%d ] \n ", v);
+			AddMapElement(&map, skey, &v);
+		}
+
+		/*for (size_t n = 0; n < 2; n++)
+		{
+			uint32_t value = rand();
+			for (int i = 2; i < 10; i++) {
+				char* skey = (char*)malloc(sizeof(char) * i);
+				for (size_t k = 0; k < i; k++)
+				{
+					skey[k] = (char)(rand() % 95 + 32);;
+				}
+				skey[i - 1] = 0;
+				printf("char:%s  ", skey);
+				AddMapElement(&map, skey, &value);
+				free(skey);
+			}
+		}*/
+
+		PrintMap(&map);
+		uint32_t mapLen = GetMapLength(&map);
+
+		uint32_t* keys = (uint32_t*)calloc(mapLen, sizeof(uint32_t));
+		uint32_t keysCount = GetMapKeys(&map, keys);
+		printf("keysCount:%d\n", keysCount);
+
+		uint32_t* mapValues = calloc(mapLen, sizeof(mapValues));
+		uint32_t valueCount = (uint32_t*)GetMapValues(&map, mapValues);
+		printf("valueCount:%d\n", valueCount);
+
+		printf("\n");
+		for (size_t i = 0; i < valueCount; i++)
+		{
+			printf("values[%d]:%d\n", i, mapValues[i]);
+		}
+		for (size_t i = 0; i < keysCount; i++)
+		{
+			printf("keys[%d]:%d\n", i, keys[i]);
+		}
+
+		ReleaseMap(&map);
+
+		free(keys);
+		keys = NULL;
+		free(mapValues);
+		mapValues = NULL;
+
+	}
+}
+
+
 void MapTest() {
 
-	//TestMultipHash();
-	Map map = CreateMap(4);
-	uint32_t e0 = 60000;
-	uint32_t e1 = 61000;
-	uint32_t e2 = 62000;
-	uint32_t e3 = 33333;
-	uint32_t e4 = 33333;
-	uint32_t e5 = 33333;
-	uint32_t e6 = 33333;
-	uint32_t e7 = 33333;
+	//testLifeTime();
 
-
-	int index = 0;
-	for (size_t n = 0; n < 5; n++)
-	{
-		uint32_t value = rand();
-		for (int i = 2; i < 10; i++) {
-			char* skey = (char*)malloc(sizeof(char) * i);
-			for (size_t k = 0; k < i; k++)
-			{
-				skey[k] = (char)(rand() % 95 + 32);;
-			}
-			skey[i] = 0;
-			printf("\nchar:%s\n", skey);
-			index++;
-			AddMapElement(&map, skey, &value);
-		}
-	}
-
-	//PrintMap(&map);
-	AddMapElement(&map, "a", &e0);
-	AddMapElement(&map, "abcdef", &e1);
-	AddMapElement(&map, "gedsafd", &e2);
-	AddMapElement(&map, "a", &e3);
-	RemoveMapElement(&map, "gedsafd");
-
-	PrintMap(&map);
-	printf("\nindex:%d", index);
-	printf("\n map len:%d\n", GetMapLength(&map));
-
-	uint32_t* keys = (uint32_t*)malloc(GetMapLength(&map));
-	uint32_t* values = (uint32_t*)malloc(GetMapLength(&map));
-	keys = (uint32_t*)GetMapKeys(&map);
-	values = (uint32_t*)GetMapValues(&map);
-
-	for (size_t i = 0; i < GetMapLength(&map); i++)
-	{
-		printf("values[%d]:%d\n",i,values[i]);
-	}
-
-	/*MapElement* findElement = FindMapElement(&map, "a");
-	printf("\nfind value:%d", *(uint32_t*)(findElement->value));*/
-
-	//ReleaseMap(&map);
+	testRand();
 }
