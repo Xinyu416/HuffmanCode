@@ -103,7 +103,7 @@ void BitArrayPush(struct bitArray* containerArr, uint32_t inData, uint8_t inData
 		temp = (temp << bitUseLen) & maskslowtoHight[bitUseLen];
 
 		//当前字节数据
-		uint8_t currentIndex = containerLen / 8;
+		uint32_t currentIndex = containerLen / 8;
 		//清除原先的数据
 		containerArr->data[currentIndex] &= maskshighttoLow[bitLeaveLen];
 		//塞入数据
@@ -127,7 +127,7 @@ uint32_t BitArrayPop(struct bitArray* arr, uint8_t getDataLen, uint32_t offset) 
 	uint32_t outData = 0;
 	uint8_t currentWriteLen = 0;
 	//当前字节（数组index）
-	uint8_t currentBytes = 0;
+	uint32_t currentBytes = 0;
 	//当前字节使用的位
 	uint8_t A = 0;
 	//当前字节剩余的位

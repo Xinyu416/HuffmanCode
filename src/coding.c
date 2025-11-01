@@ -256,7 +256,6 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 	BitArrayPush(bitArr, header.contentCodeLen, header_contentCodeLen_bytes * 8);
 
 	printf("\nheaderPush over\n");
-	
 
 
 	//将树信息压入位数组
@@ -275,15 +274,14 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 		//9位存储节点数据 type在高1位，data在低8位
 		bitsBuf |= (((uint32_t)node->type) << 8);
 		BitArrayPush(bitArr, bitsBuf, 9);
-		printf("\nnode[%d],type:%d,data:%d,char:%c [",i,node->type,node->data, node->data);
-		printBits(bitsBuf,9);
+		printf("\nnode[%d],type:%d,data:%d,char:%c [", i, node->type, node->data, node->data);
+		printBits(bitsBuf, 9);
 		printf("]");
-		
 	}
 
 
 	printf("\n\n--------------- 压入content位数据 End --------------\n\n");
-	
+
 
 	bitsBuf = 0;
 	//原文数据压入位数组 不定长度的位信息
@@ -294,12 +292,12 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 		printf("\nlen[%d]:bitsBuf/code:%d[", i, bitsBuf);
 		printBits(bitsBuf, codes[datas[i]].len);
 		printf("]");
-		uint16_t temp = (uint16_t)BitArrayPop(bitArr, 16, 0);
-		printf("\ntemp:%d\n", temp);
+
 	}
-		return;
+
+	//return;
 	printf("\n\n--------------- 压入位数据 End --------------\n\n");
-	
+
 
 	//从内存中读取数据并写出到文件
 	ReadAndSaveDataFromContext(bitArr);
@@ -363,7 +361,7 @@ void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray
 		}
 
 		if (currentNode != NULL && currentNode->type == 0) {
-			//printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
+			printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
 		}
 	}
 
@@ -384,12 +382,12 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	offset += sizeof(header_read.nodesNum) * 8;
 
 	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
-	
-	
+
 	header_read.contentCodeLen = BitArrayPop(bitArr, sizeof(header_read.contentCodeLen) * 8, offset);
 	offset += sizeof(header_read.contentCodeLen) * 8;
 
 	printf("\nheader_read.contentCodeLen：%d\n", header_read.contentCodeLen);
+
 
 	uint32_t totalBits = header_read.nodesNum * 9 + header_read.contentCodeLen + sizeof(header_read.nodesNum) * 8 + sizeof(header_read.contentCodeLen) * 8;
 	printf("\ntotalBits：%d\n", totalBits);
@@ -411,21 +409,19 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	printf("\noffset：%d\n", offset);
 	printf("\nheader_read.contentCodeLen：%d\n", header_read.contentCodeLen);
 	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
-	
-	//return;
+
+
 	//DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.contentCodeLen);
 	//写入数据到指定文件
-	/*uint16_t temp = (uint16_t)BitArrayPop(bitArr, 16, 0);
-	printf("\ntemp:%d\n", temp);
-	return;*/
-	const char* filename = "C:\\Users\\DRF\\Desktop\\test.express";
+	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test2.express";
 	printf("\n写出文件到 %s:\n", filename);
-	FILE* writeStream = fopen(filename, "w+");
+	FILE* writeStream = fopen(filename, "wb");
 	fwrite(bitArr->data, sizeof(uint8_t), fileBytes, writeStream);
 	fclose(writeStream);
 	printf("\n\n-------------------------------- 文件中写出数据  End -----------------------------------");
-	
+
 	printf("\n\n-------------------------------- 内存中读取数据  End -----------------------------------");
+
 }
 
 void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uint32_t inOffset, uint32_t inContentBitLens) {
@@ -480,6 +476,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 
 		if (currentNode != NULL && currentNode->type == 0) {
 			//printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
+			printf("%c", currentNode->data, currentNode->data);
 		}
 	}
 }
@@ -487,7 +484,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 void DecodeFromFile() {
 
 	printf("\n\n-------------------------------- 文件中读取数据  Start -----------------------------------");
-	const char* filename = "C:\\Users\\DRF\\Desktop\\test.express";
+	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test2.express";
 	struct DataHeader header_read_file = { .nodesNum = 0,.contentCodeLen = 0 };
 	//读取文件
 	FILE* readStream_file = fopen(filename, "rb");
@@ -495,7 +492,7 @@ void DecodeFromFile() {
 		printf("\nreadStream is NULL\n");
 	}
 
-	
+
 	//读取文件头文件
 	fread(&header_read_file.nodesNum, sizeof(header_read_file.nodesNum), 1, readStream_file);
 	fread(&header_read_file.contentCodeLen, sizeof(header_read_file.contentCodeLen), 1, readStream_file);
@@ -508,16 +505,20 @@ void DecodeFromFile() {
 	uint32_t totalBits_file = header_read_file.nodesNum * 9 + header_read_file.contentCodeLen + sizeof(header_read_file.nodesNum) * 8 + sizeof(header_read_file.contentCodeLen) * 8;
 	uint32_t read_fileBytes = (uint32_t)ceilf((float)totalBits_file / 8.0f);
 
+
+	printf("\nheader_read_file.nodesNum:%d\n", header_read_file.nodesNum);
+	printf("\nheader_read_file.contentCodeLen:%d\n", header_read_file.contentCodeLen);
+	printf("\nhearead_fileBytes:%d\n", read_fileBytes);
+	uint32_t contentBytes = read_fileBytes - sizeof(header_read_file.nodesNum) - sizeof(header_read_file.contentCodeLen);
+	printf("\contentBytes:%d\n", contentBytes);
+
 	//总数据指针
 	uint8_t* read_file_data = (uint8_t*)malloc(read_fileBytes - sizeof(header_read_file.nodesNum) - sizeof(header_read_file.contentCodeLen));
-	uint32_t contentCount = fread(read_file_data, sizeof(uint8_t), read_fileBytes, readStream_file);
+	uint32_t contentCount = fread(read_file_data, sizeof(uint8_t), contentBytes, readStream_file);
 	uint32_t buf = 0;
 	uint32_t offset = 0;
 	uint8_t type = 0;
 	uint8_t outdata = 0;
-
-	printf("\nheader_read_file.nodesNum:%d\n", header_read_file.nodesNum);
-	printf("\nheader_read_file.contentCodeLen:%d\n", header_read_file.contentCodeLen);
 
 	for (uint32_t i = 0; i < header_read_file.nodesNum; i++)
 	{
@@ -534,12 +535,9 @@ void DecodeFromFile() {
 
 	ReadContentData_Infile(readNodes_read_file, header_read_file.nodesNum, read_file_data, offset, header_read_file.contentCodeLen);
 
-
-	printf("\nheader_read_file.nodesNum:%d\n", header_read_file.nodesNum);
-	printf("header_read_file.contentCodeLen:%d\n", header_read_file.contentCodeLen);
 }
 
 void TestCoding() {
 	CollectData();
-	//DecodeFromFile();
+	DecodeFromFile();
 }

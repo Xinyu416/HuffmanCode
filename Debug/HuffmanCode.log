@@ -1,10 +1,13 @@
 ﻿  coding.c
-D:\QXY\cpp\CODEC\src\coding.c(55,24): warning C4129: “.”: 不可识别的字符转义序列
-D:\QXY\cpp\CODEC\src\coding.c(55,24): warning C4129: “)”: 不可识别的字符转义序列
-D:\QXY\cpp\CODEC\src\coding.c(214,32): warning C4020: “PrintTree”: 实参太多
-D:\QXY\cpp\CODEC\src\coding.c(215,36): warning C4020: “PrintTree”: 实参太多
-D:\QXY\cpp\CODEC\src\coding.c(223,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
-D:\QXY\cpp\CODEC\src\coding.c(223,35): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
-D:\QXY\cpp\CODEC\src\coding.c(224,45): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
-D:\QXY\cpp\CODEC\src\coding.c(224,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
-  HuffmanCode.vcxproj -> D:\QXY\cpp\CODEC\Debug\HuffmanCode.exe
+C:\CProject\HuffmanCode\src\coding.c(55,24): warning C4129: “.”: 不可识别的字符转义序列
+C:\CProject\HuffmanCode\src\coding.c(55,24): warning C4129: “)”: 不可识别的字符转义序列
+C:\CProject\HuffmanCode\src\coding.c(214,32): warning C4020: “PrintTree”: 实参太多
+C:\CProject\HuffmanCode\src\coding.c(215,36): warning C4020: “PrintTree”: 实参太多
+C:\CProject\HuffmanCode\src\coding.c(223,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+C:\CProject\HuffmanCode\src\coding.c(223,35): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+C:\CProject\HuffmanCode\src\coding.c(224,45): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+C:\CProject\HuffmanCode\src\coding.c(224,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+C:\CProject\HuffmanCode\src\coding.c(479,47): warning C4474: printf: 格式字符串中传递的参数太多
+C:\CProject\HuffmanCode\src\coding.c(479,47): message : 占位符和其参数预计 1 可变参数，但提供的却是 2 参数
+C:\CProject\HuffmanCode\src\coding.c(513,9): warning C4129: “c”: 不可识别的字符转义序列
+  HuffmanCode.vcxproj -> C:\CProject\HuffmanCode\Debug\HuffmanCode.exe
