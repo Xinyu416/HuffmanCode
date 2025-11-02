@@ -148,6 +148,7 @@
     <ClCompile Include="src\coding.c" />
     <ClCompile Include="src\containers.c" />
     <ClCompile Include="src\map.c" />
+    <ClCompile Include="src\readBMP.c" />
     <ClCompile Include="test.c" />
     <ClCompile Include="testbits.c" />
   </ItemGroup>
@@ -158,6 +159,7 @@
     <ClInclude Include="include\coding.h" />
     <ClInclude Include="include\containers.h" />
     <ClInclude Include="include\map.h" />
+    <ClInclude Include="include\readBMP.h" />
     <ClInclude Include="linklist.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

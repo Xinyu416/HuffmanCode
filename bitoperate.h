@@ -16,15 +16,6 @@ struct bitArray {
 };
 
 /// <summary>
-/// 自定义文件数据头信息
-/// </summary>
-struct DataHeader {
-	uint16_t nodesNum;
-	uint32_t contentCodeLen;
-};
-
-
-/// <summary>
 /// 打印位信息
 /// </summary>
 /// <param name="data"></param>

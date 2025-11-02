@@ -8,6 +8,8 @@
 #include "include/containers.h"
 #include "include/coding.h"
 #include "include/map.h"
+#include "include/readBMP.h"
+
 
 void TestQuickSort() {
 	//快速排序一般数据类型测试
@@ -28,7 +30,7 @@ void TestQuickSort() {
 		testArr[i] = rand();
 	}
 	int32_t p = 0;
-	int32_t r = 10000000-1;
+	int32_t r = 10000000 - 1;
 
 	/*数组创建计时*/
 	t = clock() - t;
@@ -155,7 +157,7 @@ void TestCustomArrayTestContainer() {
 	printf("sizeof(TestContainer):%d\n", sizeof(TestContainer));
 	Array arr = ArrayCreate(sizeof(TestContainer));
 	size_t randomNumber = 0;
-	TestContainer e = {0};
+	TestContainer e = { 0 };
 	clock_t t = clock();
 	for (size_t i = 0; i < 10000000; i++)
 	{
@@ -178,7 +180,10 @@ int main() {
 	/*TestCustomArray();
 	TestCustomArray2();*/
 	//TestCustomArrayTestContainer();
-	TestCoding();
+	// 编解码测试
 	//printf("entry");
 	//MapTest();
+
+	//TestCoding();
+	ReadBMPFile();
 }

@@ -50,12 +50,13 @@ void PrintTree(Node* nodes, Node* node, uint32_t indent) {
 	}
 }
 
-void CollectData() {
+void CollectData(const char* content, uint32_t width, uint32_t height) {
 	//const char* content = "AACDEEGFDEGHKBK";
-	const char* content = "Robust Programming The following conditions may cause an exception: The path is not valid for one of the following reasons: it is a zero-length string, it contains only white space, it contains invalid characters, or it is a device path (starts with \.\) (ArgumentException). The path is not valid because it is Nothing (ArgumentNullException). destinationFileName is Nothing or an empty string (ArgumentNullException). The source file is not valid or does not exist (FileNotFoundException). The combined path points to an existing directory, the destination file exists and overwrite is set to False, a file in the target directory with the same name is in use, or the user does not have sufficient permissions to access the file (IOException). A file or directory name in the path contains a colon (:) or is in an invalid format (NotSupportedException). showUI is set to True, onUserCancel is set to ThrowException, and either the user has cancelled the operation or an unspecified I/O error occurs (OperationCanceledException). The path exceeds the system-defined maximum length (PathTooLongException). The user lacks necessary permissions to view the path (SecurityException). The user does not have required permission (UnauthorizedAccessException). See also MoveFile How to: Rename a File How to: Create a Copy of a File in a Different Directory How to: Parse File Paths Collaborate with us on GitHub The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide. .NET feedback .NET is an open source project. Select a link to provide feedback: Open a documentation issue Provide product feedback Additional resources Documentation How to: Rename a File - Visual Basic Learn about how to rename a file with the Visual Basic Runtime Library or the .NET base class library. How to: Parse File Paths - Visual Basic Learn more about: How to: Parse File Paths in Visual Basic How to: Delete a File - Visual Basic Learn more about: How to: Delete a File in Visual Basic Show 2 more";
+	//const char* content = "Robust Programming The following conditions may cause an exception: The path is not valid for one of the following reasons: it is a zero-length string, it contains only white space, it contains invalid characters, or it is a device path (starts with \.\) (ArgumentException). The path is not valid because it is Nothing (ArgumentNullException). destinationFileName is Nothing or an empty string (ArgumentNullException). The source file is not valid or does not exist (FileNotFoundException). The combined path points to an existing directory, the destination file exists and overwrite is set to False, a file in the target directory with the same name is in use, or the user does not have sufficient permissions to access the file (IOException). A file or directory name in the path contains a colon (:) or is in an invalid format (NotSupportedException). showUI is set to True, onUserCancel is set to ThrowException, and either the user has cancelled the operation or an unspecified I/O error occurs (OperationCanceledException). The path exceeds the system-defined maximum length (PathTooLongException). The user lacks necessary permissions to view the path (SecurityException). The user does not have required permission (UnauthorizedAccessException). See also MoveFile How to: Rename a File How to: Create a Copy of a File in a Different Directory How to: Parse File Paths Collaborate with us on GitHub The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide. .NET feedback .NET is an open source project. Select a link to provide feedback: Open a documentation issue Provide product feedback Additional resources Documentation How to: Rename a File - Visual Basic Learn about how to rename a file with the Visual Basic Runtime Library or the .NET base class library. How to: Parse File Paths - Visual Basic Learn more about: How to: Parse File Paths in Visual Basic How to: Delete a File - Visual Basic Learn more about: How to: Delete a File in Visual Basic Show 2 more";
 	//const char* content = "Robust Programming The following conditions may cause an exception: ";
-	//const char* content = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+	//const char* content = "在本章中，我们将开始探索位图（Bitmap，简称BMP）文件的内部结构。BMP格式作为一种常见的图像文件格式，它的简单性使其成为学习图像文件处理的良好起点。我们将从基础的文件结构开始，逐步深入到BMP文件头、图像数据存储以及文件头信息对图像处理的影响。首先，理解BMP文件格式的基本结构是至关重要的。BMP文件由文件头、信息头、调色板（对于24位图像可选）和实际的位图数据构成。通过拆解这些组成部分，我们可以清晰地看到图像数据是如何在文件中排列的。我们还将探索文件头中的关键字段，如 BITMAPFILEHEADER 和BITMAPINFOHEADER ，它们分别记录了文件的元数据和位图的宽度、高度、颜色深度等关键信息。这些信息对于图像的正确读取和显示至关重要，也是图像处理软件中不可或缺的部分";
 	uint32_t len = strlen(content);
+	printf("content len:%d\n", len);
 
 	/*char 数组转uint8 数组*/
 	const uint8_t* datas = (const uint8_t*)content;
@@ -85,6 +86,7 @@ void CollectData() {
 	Node* nodes = (Node*)calloc(sizeof(Node) * no_empty_size * 2, 1);
 	Node* node = NULL;
 	uint32_t nodeNum = 0;
+
 
 	/*对非空数据排序 按频率升序写入units*/
 	uint32_t unit_index = 0;
@@ -203,10 +205,10 @@ void CollectData() {
 		//printf("\nnode[%d] count: %d(child:%d)  ,type:%d,  data:%d \n", i, (nodes + i)->frequcey, (nodes + i)->childIndex, (nodes + i)->type, (nodes + i)->data);
 	}
 	//编码
-	Coding(nodes, nodeNum, len, datas);
+	Coding(nodes, nodeNum, len, datas, width, height);
 }
 
-void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
+void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, uint32_t width, uint32_t height) {
 
 	Code codes[256] = { 0 };
 	Node* tempNode = nodes + nodeNum - 1;
@@ -235,12 +237,14 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 	}
 	printf("nodeNum:%d -- contentBitsLen:%d\n", nodeNum, contentBitsLen);
 
-	struct DataHeader header = { .nodesNum = nodeNum,.contentCodeLen = contentBitsLen };
+	struct DataHeader header = { .nodesNum = nodeNum,.contentCodeLen = contentBitsLen,.width = width,.height = height };
 	uint32_t header_nodesNum_bytes = sizeof(header.nodesNum);
 	uint32_t header_contentCodeLen_bytes = sizeof(header.contentCodeLen);
-	printf("header_nodesNum_bytes:%d -- header_contentCodeLen_bytes:%d\n", header_nodesNum_bytes, header_contentCodeLen_bytes);
+	uint32_t header_width_bytes = sizeof(header.width);
+	uint32_t header_height_bytes = sizeof(header.height);
+	printf("header_nodesNum_bytes:%d -- header_contentCodeLen_bytes:%d,header_width_bytes:%d,header_height_bytes:%d\n", header_nodesNum_bytes, header_contentCodeLen_bytes, header_width_bytes, header_height_bytes);
 
-	uint32_t totalBits = nodeNum * 9 + contentBitsLen + header_nodesNum_bytes * 8 + header_contentCodeLen_bytes * 8;
+	uint32_t totalBits = nodeNum * 9 + contentBitsLen + header_nodesNum_bytes * 8 + header_contentCodeLen_bytes * 8 + header_width_bytes * 8 + header_height_bytes * 8;
 
 	//用9个位装每个node节点的数据，1位装节点类型，8位装数据，类型 0 叶节点 data则为数据，类型 1 合并节点 data为子节点索引
 	//文件字节数
@@ -254,6 +258,8 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 	//将头信息压入位数组
 	BitArrayPush(bitArr, header.nodesNum, header_nodesNum_bytes * 8);
 	BitArrayPush(bitArr, header.contentCodeLen, header_contentCodeLen_bytes * 8);
+	BitArrayPush(bitArr, header.width, header_width_bytes * 8);
+	BitArrayPush(bitArr, header.height, header_height_bytes * 8);
 
 	printf("\nheaderPush over\n");
 
@@ -289,9 +295,9 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas) {
 	{
 		bitsBuf = codes[datas[i]].code;
 		BitArrayPush(bitArr, bitsBuf, codes[datas[i]].len);
-		printf("\nlen[%d]:bitsBuf/code:%d[", i, bitsBuf);
+		/*printf("\nlen[%d]:bitsBuf/code:%d[", i, bitsBuf);
 		printBits(bitsBuf, codes[datas[i]].len);
-		printf("]");
+		printf("]");*/
 
 	}
 
@@ -370,7 +376,7 @@ void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray
 void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	//内容中读取数据
 	printf("\n\n-------------------------------- 内存中读取数据  Start -------------------------------------");
-	struct DataHeader header_read = { .nodesNum = 0,.contentCodeLen = 0 };
+	struct DataHeader header_read = { .nodesNum = 0,.contentCodeLen = 0,.width = 0,.height = 0 };
 	uint32_t offset = 0;
 	uint32_t buf = 0;
 	uint8_t type = 0;
@@ -380,16 +386,22 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	//读取头数据
 	header_read.nodesNum = (uint16_t)BitArrayPop(bitArr, sizeof(header_read.nodesNum) * 8, offset);
 	offset += sizeof(header_read.nodesNum) * 8;
-
 	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
 
 	header_read.contentCodeLen = BitArrayPop(bitArr, sizeof(header_read.contentCodeLen) * 8, offset);
 	offset += sizeof(header_read.contentCodeLen) * 8;
-
 	printf("\nheader_read.contentCodeLen：%d\n", header_read.contentCodeLen);
 
+	header_read.width = BitArrayPop(bitArr, sizeof(header_read.width) * 8, offset);
+	offset += sizeof(header_read.width) * 8;
+	printf("\nheader_read.width：%d\n", header_read.width);
 
-	uint32_t totalBits = header_read.nodesNum * 9 + header_read.contentCodeLen + sizeof(header_read.nodesNum) * 8 + sizeof(header_read.contentCodeLen) * 8;
+	header_read.height = BitArrayPop(bitArr, sizeof(header_read.height) * 8, offset);
+	offset += sizeof(header_read.height) * 8;
+	printf("\nheader_read.width：%d\n", header_read.height);
+
+
+	uint32_t totalBits = header_read.nodesNum * 9 + header_read.contentCodeLen + sizeof(header_read.nodesNum) * 8 + sizeof(header_read.contentCodeLen) * 8 + sizeof(header_read.width) * 8 + sizeof(header_read.height) * 8;
 	printf("\ntotalBits：%d\n", totalBits);
 	uint32_t fileBytes = (uint32_t)ceilf((float)totalBits / 8.0f);
 	printf("\nfileBytes：%d\n", fileBytes);
@@ -424,7 +436,8 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 
 }
 
-void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uint32_t inOffset, uint32_t inContentBitLens) {
+uint32_t pixelCount = 0;
+void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uint32_t inOffset, uint32_t inContentBitLens, uint8_t* pixels) {
 	uint8_t readbit = 0;
 	Node* nodes = inNodes;
 	uint32_t offset = inOffset;
@@ -476,7 +489,11 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 
 		if (currentNode != NULL && currentNode->type == 0) {
 			//printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
-			printf("%c", currentNode->data, currentNode->data);
+			printf("%c", currentNode->data);
+
+			pixels[pixelCount] = currentNode->data;
+			//printf("pixelCount:%d\n", pixelCount);
+			pixelCount++;
 		}
 	}
 }
@@ -485,7 +502,7 @@ void DecodeFromFile() {
 
 	printf("\n\n-------------------------------- 文件中读取数据  Start -----------------------------------");
 	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test2.express";
-	struct DataHeader header_read_file = { .nodesNum = 0,.contentCodeLen = 0 };
+	struct DataHeader header_read_file = { .nodesNum = 0,.contentCodeLen = 0,.width = 0,.height = 0 };
 	//读取文件
 	FILE* readStream_file = fopen(filename, "rb");
 	if (readStream_file == NULL) {
@@ -496,24 +513,28 @@ void DecodeFromFile() {
 	//读取文件头文件
 	fread(&header_read_file.nodesNum, sizeof(header_read_file.nodesNum), 1, readStream_file);
 	fread(&header_read_file.contentCodeLen, sizeof(header_read_file.contentCodeLen), 1, readStream_file);
+	fread(&header_read_file.width, sizeof(header_read_file.width), 1, readStream_file);
+	fread(&header_read_file.height, sizeof(header_read_file.height), 1, readStream_file);
 
 
 
 	//节点数组数据指针
 	Node* readNodes_read_file = (Node*)malloc(header_read_file.nodesNum * sizeof(Node));
 	//总字节数
-	uint32_t totalBits_file = header_read_file.nodesNum * 9 + header_read_file.contentCodeLen + sizeof(header_read_file.nodesNum) * 8 + sizeof(header_read_file.contentCodeLen) * 8;
+	uint32_t totalBits_file = header_read_file.nodesNum * 9 + header_read_file.contentCodeLen + sizeof(header_read_file.nodesNum) * 8 + sizeof(header_read_file.contentCodeLen) * 8 + sizeof(header_read_file.width) * 8 + sizeof(header_read_file.height) * 8;
 	uint32_t read_fileBytes = (uint32_t)ceilf((float)totalBits_file / 8.0f);
 
 
 	printf("\nheader_read_file.nodesNum:%d\n", header_read_file.nodesNum);
 	printf("\nheader_read_file.contentCodeLen:%d\n", header_read_file.contentCodeLen);
+	printf("\nheader_read_file.width:%d\n", header_read_file.width);
+	printf("\nheader_read_file.height:%d\n", header_read_file.height);
 	printf("\nhearead_fileBytes:%d\n", read_fileBytes);
-	uint32_t contentBytes = read_fileBytes - sizeof(header_read_file.nodesNum) - sizeof(header_read_file.contentCodeLen);
+	uint32_t contentBytes = read_fileBytes - sizeof(header_read_file.nodesNum) - sizeof(header_read_file.contentCodeLen) - sizeof(header_read_file.width) - sizeof(header_read_file.height);
 	printf("\contentBytes:%d\n", contentBytes);
 
 	//总数据指针
-	uint8_t* read_file_data = (uint8_t*)malloc(read_fileBytes - sizeof(header_read_file.nodesNum) - sizeof(header_read_file.contentCodeLen));
+	uint8_t* read_file_data = (uint8_t*)malloc(read_fileBytes - sizeof(header_read_file.nodesNum) - sizeof(header_read_file.contentCodeLen) - sizeof(header_read_file.width) - sizeof(header_read_file.height));
 	uint32_t contentCount = fread(read_file_data, sizeof(uint8_t), contentBytes, readStream_file);
 	uint32_t buf = 0;
 	uint32_t offset = 0;
@@ -533,11 +554,27 @@ void DecodeFromFile() {
 		(readNodes_read_file + i)->data = outdata;
 	}
 
-	ReadContentData_Infile(readNodes_read_file, header_read_file.nodesNum, read_file_data, offset, header_read_file.contentCodeLen);
+	uint8_t* bgrcolors = (uint8_t*)malloc(header_read_file.width * header_read_file.height * 3);
+	ReadContentData_Infile(readNodes_read_file, header_read_file.nodesNum, read_file_data, offset, header_read_file.contentCodeLen, bgrcolors);
 
+	//读取像素值
+	/*for (size_t i = 0; i < header_read_file.height; i++)
+	{
+		printf("\n");
+		for (int j = 0; j < header_read_file.width; j++) {
+			int pixel_index = (i * header_read_file.width + j) * 3;
+
+			printf("[r:%d,", bgrcolors[pixel_index + 2]);
+			printf("g:%d,", bgrcolors[pixel_index + 1]);
+			printf("b:%d,", bgrcolors[pixel_index + 0]);
+			printf("]");
+		}
+	}*/
+	//const char* content = (const char*)read_file_data;
+	//printf("content:%s",content);
 }
 
 void TestCoding() {
-	CollectData();
+	/*CollectData();*/
 	DecodeFromFile();
 }

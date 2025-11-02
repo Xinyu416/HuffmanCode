@@ -37,20 +37,32 @@ typedef struct code {
 	uint32_t code;
 }Code;
 
+/// <summary>
+/// 自定义文件数据头信息
+/// </summary>
+struct DataHeader {
+	uint16_t nodesNum;
+	uint32_t contentCodeLen;
+	uint32_t width;//图片宽度
+	uint32_t height;//图片高度
+};
+
 
 void GenerateCode(Node* nodes, Node* node, uint32_t bit, Code* codes, Code c, uint32_t indent);
 
 void PrintTree(Node* nodes, Node* node, uint32_t indent);
 
-void CollectData();
+void CollectData(const char* content, uint32_t width, uint32_t height);
 
-void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas);
+void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, uint32_t width, uint32_t height);
 
 void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray* bitArr, uint32_t inOffset, uint32_t inContentBitLens);
 
 void ReadAndSaveDataFromContext(struct bitArray* bitArr);
 
-void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uint32_t inOffset, uint32_t inContentBitLens);
+void DecodeFromFile();
+
+void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uint32_t inOffset, uint32_t inContentBitLens, uint8_t* pixels);
 
 void TestCoding();
 #endif 

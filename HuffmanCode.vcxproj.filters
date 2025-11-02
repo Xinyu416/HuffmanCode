@@ -42,6 +42,9 @@
     <ClCompile Include="src\map.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\readBMP.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bitoperate.h">
@@ -63,6 +66,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\map.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\readBMP.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
