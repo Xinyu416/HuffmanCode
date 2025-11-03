@@ -56,13 +56,13 @@ void CollectData(const char* content, uint32_t width, uint32_t height) {
 	//const char* content = "Robust Programming The following conditions may cause an exception: ";
 	//const char* content = "在本章中，我们将开始探索位图（Bitmap，简称BMP）文件的内部结构。BMP格式作为一种常见的图像文件格式，它的简单性使其成为学习图像文件处理的良好起点。我们将从基础的文件结构开始，逐步深入到BMP文件头、图像数据存储以及文件头信息对图像处理的影响。首先，理解BMP文件格式的基本结构是至关重要的。BMP文件由文件头、信息头、调色板（对于24位图像可选）和实际的位图数据构成。通过拆解这些组成部分，我们可以清晰地看到图像数据是如何在文件中排列的。我们还将探索文件头中的关键字段，如 BITMAPFILEHEADER 和BITMAPINFOHEADER ，它们分别记录了文件的元数据和位图的宽度、高度、颜色深度等关键信息。这些信息对于图像的正确读取和显示至关重要，也是图像处理软件中不可或缺的部分";
 	uint32_t len = strlen(content);
-	printf("content len:%d\n", len);
-
+	printf("\ncontent len:%d\n", len);
+	return;
 	/*char 数组转uint8 数组*/
 	const uint8_t* datas = (const uint8_t*)content;
 
 	/*不重复的数组元素*/
-	uint32_t data[datasize] = { 0 };
+	uint8_t data[datasize] = { 0 };
 	/*内容下标*/
 	uint32_t index;
 	for (uint32_t i = 0; i < len; i++) {
@@ -425,7 +425,7 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 
 	//DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.contentCodeLen);
 	//写入数据到指定文件
-	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test2.express";
+	const char* filename = "C:\\Users\\DRF\\Desktop\\test2.express";
 	printf("\n写出文件到 %s:\n", filename);
 	FILE* writeStream = fopen(filename, "wb");
 	fwrite(bitArr->data, sizeof(uint8_t), fileBytes, writeStream);
@@ -501,7 +501,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 void DecodeFromFile() {
 
 	printf("\n\n-------------------------------- 文件中读取数据  Start -----------------------------------");
-	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test2.express";
+	const char* filename = "C:\\Users\\DRF\\Desktop\\test2.express";
 	struct DataHeader header_read_file = { .nodesNum = 0,.contentCodeLen = 0,.width = 0,.height = 0 };
 	//读取文件
 	FILE* readStream_file = fopen(filename, "rb");
@@ -530,6 +530,7 @@ void DecodeFromFile() {
 	printf("\nheader_read_file.width:%d\n", header_read_file.width);
 	printf("\nheader_read_file.height:%d\n", header_read_file.height);
 	printf("\nhearead_fileBytes:%d\n", read_fileBytes);
+	
 	uint32_t contentBytes = read_fileBytes - sizeof(header_read_file.nodesNum) - sizeof(header_read_file.contentCodeLen) - sizeof(header_read_file.width) - sizeof(header_read_file.height);
 	printf("\contentBytes:%d\n", contentBytes);
 
@@ -558,7 +559,7 @@ void DecodeFromFile() {
 	ReadContentData_Infile(readNodes_read_file, header_read_file.nodesNum, read_file_data, offset, header_read_file.contentCodeLen, bgrcolors);
 
 	//读取像素值
-	/*for (size_t i = 0; i < header_read_file.height; i++)
+	for (size_t i = 0; i < header_read_file.height; i++)
 	{
 		printf("\n");
 		for (int j = 0; j < header_read_file.width; j++) {
@@ -569,7 +570,7 @@ void DecodeFromFile() {
 			printf("b:%d,", bgrcolors[pixel_index + 0]);
 			printf("]");
 		}
-	}*/
+	}
 	//const char* content = (const char*)read_file_data;
 	//printf("content:%s",content);
 }

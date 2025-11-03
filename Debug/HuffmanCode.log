@@ -1,5 +1,4 @@
 ﻿  readBMP.c
-C:\CProject\HuffmanCode\src\readBMP.c(75,23): warning C4018: “<”: 有符号/无符号不匹配
-C:\CProject\HuffmanCode\src\readBMP.c(83,24): warning C4129: “.”: 不可识别的字符转义序列
-C:\CProject\HuffmanCode\src\readBMP.c(83,24): warning C4129: “)”: 不可识别的字符转义序列
-  HuffmanCode.vcxproj -> C:\CProject\HuffmanCode\Debug\HuffmanCode.exe
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winbase.h(9572,5): warning C5105: 生成“已定义”的宏扩展具有未定义的行为
+D:\QXY\cpp\CODEC\src\readBMP.c(82,23): warning C4018: “<”: 有符号/无符号不匹配
+  HuffmanCode.vcxproj -> D:\QXY\cpp\CODEC\Debug\HuffmanCode.exe
