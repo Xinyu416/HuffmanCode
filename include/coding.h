@@ -52,7 +52,7 @@ void GenerateCode(Node* nodes, Node* node, uint32_t bit, Code* codes, Code c, ui
 
 void PrintTree(Node* nodes, Node* node, uint32_t indent);
 
-void CollectData(const char* content, uint32_t width, uint32_t height);
+void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32_t len);
 
 void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, uint32_t width, uint32_t height);
 

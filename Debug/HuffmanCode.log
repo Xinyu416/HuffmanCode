@@ -1,4 +1,10 @@
 ﻿  readBMP.c
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winbase.h(9572,5): warning C5105: 生成“已定义”的宏扩展具有未定义的行为
-D:\QXY\cpp\CODEC\src\readBMP.c(82,23): warning C4018: “<”: 有符号/无符号不匹配
-  HuffmanCode.vcxproj -> D:\QXY\cpp\CODEC\Debug\HuffmanCode.exe
+C:\CProject\HuffmanCode\src\readBMP.c(82,23): warning C4018: “<”: 有符号/无符号不匹配
+  test.c
+C:\CProject\HuffmanCode\test.c(80,13): warning C4022: “myFunction”: 指针与实参 1 不匹配
+C:\CProject\HuffmanCode\test.c(80,18): warning C4022: “myFunction”: 指针与实参 2 不匹配
+C:\CProject\HuffmanCode\test.c(109,1): warning C4047: “初始化”:“uint16_t *”与“int”的间接级别不同
+C:\CProject\HuffmanCode\test.c(116,1): warning C4047: “初始化”:“uint16_t *”与“int”的间接级别不同
+  正在生成代码...
+  LINK : 没有找到 C:\CProject\HuffmanCode\Debug\HuffmanCode.exe 或上一个增量链接没有生成它；正在执行完全链接
+  HuffmanCode.vcxproj -> C:\CProject\HuffmanCode\Debug\HuffmanCode.exe
