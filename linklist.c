@@ -138,6 +138,7 @@ void MultiPrintList(struct LinkList* list) {
 		printf("%c/%d(%d),", u->data, u->data, u->count);
 		u = u->next;
 	}
+	printf("\n\n");
 }
 
 void test() {

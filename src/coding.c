@@ -61,7 +61,6 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 	/*char 数组转uint8 数组*/
 	//const uint8_t* datas = (const uint8_t*)content;
 	const uint8_t* datas = content;
-
 	/*不重复的数组元素*/
 	uint8_t data[datasize] = { 0 };
 	/*内容下标*/
@@ -82,6 +81,7 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 	printf("\n-----------------------  构建链表 Start -----------------------\n");
 	//构建链表
 	printf("非空数据大小 %d   --- Len: %d\n", no_empty_size, len);
+	
 
 	struct LinkList list = CreateList(no_empty_size);
 	Node* nodes = (Node*)calloc(sizeof(Node) * no_empty_size * 2, 1);
@@ -94,18 +94,23 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 
 	uint8_t value = 0;
 	uint32_t count = 0;
+	bool complete = false;
 	while (true) {
 		value = 0;
+		complete = false;
+		//下标即为值（0~255）
 		for (uint32_t j = 0; j < datasize; j++) {
 			count = data[j];
 			if (count != 0 && minsize >= count) {
 				value = (uint8_t)j;
 				minsize = count;
+				complete = true;
 			}
 		}
-		if (value != 0) {
+		if (complete) {
 			struct ListUnit* u = CreateListUnit(&list, minsize, value, 0);
 			InsertListUnitToEnd(&list, u);
+			//将原始数据清空 数据值往新数组迁移
 			data[value] = 0;
 			minsize = UINT32_MAX;
 		}
@@ -131,7 +136,6 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 
 	printf("\nnumOfUnits %d\n", numOfUnits);
 	MultiPrintList(&list);
-
 	while (numOfUnits > 1) {
 		//printf("first unit data -- %c ,count:%d\n", first->data, first->count);
 		u1 = first;
@@ -295,13 +299,12 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, u
 	{
 		bitsBuf = codes[datas[i]].code;
 		BitArrayPush(bitArr, bitsBuf, codes[datas[i]].len);
+		//printf("\nlen[%d]:bitsBuf/code:%d", i, bitsBuf);
 		/*printf("\nlen[%d]:bitsBuf/code:%d[", i, bitsBuf);
 		printBits(bitsBuf, codes[datas[i]].len);
 		printf("]");*/
 
 	}
-
-	//return;
 	printf("\n\n--------------- 压入位数据 End --------------\n\n");
 
 
@@ -492,7 +495,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 
 		if (currentNode != NULL && currentNode->type == 0) {
 			//printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
-			printf("%c", currentNode->data);
+			//printf("%c", currentNode->data);
 
 			pixels[pixelCount] = currentNode->data;
 			//printf("pixelCount:%d\n", pixelCount);

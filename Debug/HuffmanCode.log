@@ -1,10 +1,4 @@
-﻿  coding.c
-D:\QXY\cpp\CODEC\src\coding.c(216,32): warning C4020: “PrintTree”: 实参太多
-D:\QXY\cpp\CODEC\src\coding.c(217,36): warning C4020: “PrintTree”: 实参太多
-D:\QXY\cpp\CODEC\src\coding.c(225,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
-D:\QXY\cpp\CODEC\src\coding.c(225,35): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
-D:\QXY\cpp\CODEC\src\coding.c(226,45): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
-D:\QXY\cpp\CODEC\src\coding.c(226,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
-D:\QXY\cpp\CODEC\src\coding.c(538,9): warning C4129: “c”: 不可识别的字符转义序列
-D:\QXY\cpp\CODEC\src\coding.c(568,21): warning C4018: “<”: 有符号/无符号不匹配
+﻿  readBMP.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winbase.h(9572,5): warning C5105: 生成“已定义”的宏扩展具有未定义的行为
+D:\QXY\cpp\CODEC\src\readBMP.c(69,23): warning C4018: “<”: 有符号/无符号不匹配
   HuffmanCode.vcxproj -> D:\QXY\cpp\CODEC\Debug\HuffmanCode.exe
