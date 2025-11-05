@@ -1,10 +1,10 @@
-﻿  readBMP.c
-C:\CProject\HuffmanCode\src\readBMP.c(82,23): warning C4018: “<”: 有符号/无符号不匹配
-  test.c
-C:\CProject\HuffmanCode\test.c(80,13): warning C4022: “myFunction”: 指针与实参 1 不匹配
-C:\CProject\HuffmanCode\test.c(80,18): warning C4022: “myFunction”: 指针与实参 2 不匹配
-C:\CProject\HuffmanCode\test.c(109,1): warning C4047: “初始化”:“uint16_t *”与“int”的间接级别不同
-C:\CProject\HuffmanCode\test.c(116,1): warning C4047: “初始化”:“uint16_t *”与“int”的间接级别不同
-  正在生成代码...
-  LINK : 没有找到 C:\CProject\HuffmanCode\Debug\HuffmanCode.exe 或上一个增量链接没有生成它；正在执行完全链接
-  HuffmanCode.vcxproj -> C:\CProject\HuffmanCode\Debug\HuffmanCode.exe
+﻿  coding.c
+D:\QXY\cpp\CODEC\src\coding.c(216,32): warning C4020: “PrintTree”: 实参太多
+D:\QXY\cpp\CODEC\src\coding.c(217,36): warning C4020: “PrintTree”: 实参太多
+D:\QXY\cpp\CODEC\src\coding.c(225,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\CODEC\src\coding.c(225,35): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+D:\QXY\cpp\CODEC\src\coding.c(226,45): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\CODEC\src\coding.c(226,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+D:\QXY\cpp\CODEC\src\coding.c(538,9): warning C4129: “c”: 不可识别的字符转义序列
+D:\QXY\cpp\CODEC\src\coding.c(568,21): warning C4018: “<”: 有符号/无符号不匹配
+  HuffmanCode.vcxproj -> D:\QXY\cpp\CODEC\Debug\HuffmanCode.exe

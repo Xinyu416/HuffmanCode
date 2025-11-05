@@ -68,7 +68,7 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 	uint32_t index;
 	for (uint32_t i = 0; i < len; i++) {
 		/*用内容当下标，重复值当频率内容*/
-		index = (uint8_t)datas[i];
+		index = datas[i];
 		data[index]++;
 	}
 
@@ -87,7 +87,6 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 	Node* nodes = (Node*)calloc(sizeof(Node) * no_empty_size * 2, 1);
 	Node* node = NULL;
 	uint32_t nodeNum = 0;
-
 
 	/*对非空数据排序 按频率升序写入units*/
 	uint32_t unit_index = 0;
@@ -406,7 +405,9 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	printf("\ntotalBits：%d\n", totalBits);
 	uint32_t fileBytes = (uint32_t)ceilf((float)totalBits / 8.0f);
 	printf("\nfileBytes：%d\n", fileBytes);
-
+	
+	printf("current offset：%d\n",offset);
+	
 	Node* readNodes = (Node*)malloc(header_read.nodesNum * sizeof(Node));
 	for (uint32_t i = 0; i < header_read.nodesNum; i++)
 	{
@@ -422,11 +423,12 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	printf("\noffset：%d\n", offset);
 	printf("\nheader_read.contentCodeLen：%d\n", header_read.contentCodeLen);
 	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
-
+	printf("\nheader_read.width：%d\n", header_read.width);
+	printf("\nheader_read.height：%d\n", header_read.height);
 
 	//DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.contentCodeLen);
 	//写入数据到指定文件
-	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test2.express";
+	const char* filename = "C:\\Users\\DRF\\Desktop\\test2.express";
 	printf("\n写出文件到 %s:\n", filename);
 	FILE* writeStream = fopen(filename, "wb");
 	fwrite(bitArr->data, sizeof(uint8_t), fileBytes, writeStream);
@@ -502,7 +504,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 void DecodeFromFile() {
 
 	printf("\n\n-------------------------------- 文件中读取数据  Start -----------------------------------");
-	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test2.express";
+	const char* filename = "C:\\Users\\DRF\\Desktop\\test2.express";
 	struct DataHeader header_read_file = { .nodesNum = 0,.contentCodeLen = 0,.width = 0,.height = 0 };
 	//读取文件
 	FILE* readStream_file = fopen(filename, "rb");
