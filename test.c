@@ -184,6 +184,6 @@ int main() {
 	//printf("entry");
 	//MapTest();
 
-	//TestCoding();
 	ReadBMPFile();
+	TestCoding();
 }

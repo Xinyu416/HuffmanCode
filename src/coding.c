@@ -36,7 +36,7 @@ void PrintTree(Node* nodes, Node* node, uint32_t indent) {
 	{
 		printf("   ");
 	}
-	printf("index:%d ,data: %d , count：%d ,type:%d", node->parentIndex, node->data, node->frequcey, node->type);
+	printf("Pindex:%d ,Cindex:%d ,data: %x , count：%d ,type:%d", node->parentIndex,node->childIndex, node->data, node->frequcey, node->type);
 
 	//叶节点 打印叶子
 	if (node->type == 0) {
@@ -56,13 +56,20 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 	//const char* content = "Robust Programming The following conditions may cause an exception: ";
 	//const char* content = "在本章中，我们将开始探索位图（Bitmap，简称BMP）文件的内部结构。BMP格式作为一种常见的图像文件格式，它的简单性使其成为学习图像文件处理的良好起点。我们将从基础的文件结构开始，逐步深入到BMP文件头、图像数据存储以及文件头信息对图像处理的影响。首先，理解BMP文件格式的基本结构是至关重要的。BMP文件由文件头、信息头、调色板（对于24位图像可选）和实际的位图数据构成。通过拆解这些组成部分，我们可以清晰地看到图像数据是如何在文件中排列的。我们还将探索文件头中的关键字段，如 BITMAPFILEHEADER 和BITMAPINFOHEADER ，它们分别记录了文件的元数据和位图的宽度、高度、颜色深度等关键信息。这些信息对于图像的正确读取和显示至关重要，也是图像处理软件中不可或缺的部分";
 	//uint32_t len = strlen(content);
-	printf("\ncontent len:%d\n", len);
-	
 	/*char 数组转uint8 数组*/
 	//const uint8_t* datas = (const uint8_t*)content;
 	const uint8_t* datas = content;
 	/*不重复的数组元素*/
 	uint8_t data[datasize] = { 0 };
+	printf("\ncontent len:%d\n", len);
+	for (size_t i = 0; i < len; i++)
+	{
+		if (i%8==0) {
+			printf("\n");
+		}
+		printf("%x ",datas[i]);
+	}
+
 	/*内容下标*/
 	uint32_t index;
 	for (uint32_t i = 0; i < len; i++) {
@@ -94,20 +101,20 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 
 	uint8_t value = 0;
 	uint32_t count = 0;
-	bool complete = false;
+	bool isContinue = false;
 	while (true) {
 		value = 0;
-		complete = false;
+		isContinue = false;
 		//下标即为值（0~255）
 		for (uint32_t j = 0; j < datasize; j++) {
 			count = data[j];
 			if (count != 0 && minsize >= count) {
 				value = (uint8_t)j;
 				minsize = count;
-				complete = true;
+				isContinue = true;
 			}
 		}
-		if (complete) {
+		if (isContinue) {
 			struct ListUnit* u = CreateListUnit(&list, minsize, value, 0);
 			InsertListUnitToEnd(&list, u);
 			//将原始数据清空 数据值往新数组迁移
@@ -135,7 +142,7 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 	uint32_t numOfUnits = no_empty_size;
 
 	printf("\nnumOfUnits %d\n", numOfUnits);
-	MultiPrintList(&list);
+	//MultiPrintList(&list);
 	while (numOfUnits > 1) {
 		//printf("first unit data -- %c ,count:%d\n", first->data, first->count);
 		u1 = first;
@@ -179,6 +186,7 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 		RemoveListUnit(&list, u1); numOfUnits--;
 		RemoveListUnit(&list, u2); numOfUnits--;
 		//合并的元素
+		//创建新的组合单元并插入到单元集合中，并标记单元类型为组合单元（type=1），data中存的是指向成员单元的索引（因为两个成员单元的索引是相邻的所以只要储存一个就可以）
 		merge = CreateListUnit(&list, newCount, nodeNum - 1, 1);
 		currentUnit = first;
 		while (currentUnit != NULL) {
@@ -247,7 +255,7 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, u
 	uint32_t header_width_bytes = sizeof(header.width);
 	uint32_t header_height_bytes = sizeof(header.height);
 	printf("header_nodesNum_bytes:%d -- header_contentCodeLen_bytes:%d,header_width_bytes:%d,header_height_bytes:%d\n", header_nodesNum_bytes, header_contentCodeLen_bytes, header_width_bytes, header_height_bytes);
-
+	
 	uint32_t totalBits = nodeNum * 9 + contentBitsLen + header_nodesNum_bytes * 8 + header_contentCodeLen_bytes * 8 + header_width_bytes * 8 + header_height_bytes * 8;
 
 	//用9个位装每个node节点的数据，1位装节点类型，8位装数据，类型 0 叶节点 data则为数据，类型 1 合并节点 data为子节点索引
@@ -284,14 +292,13 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, u
 		//9位存储节点数据 type在高1位，data在低8位
 		bitsBuf |= (((uint32_t)node->type) << 8);
 		BitArrayPush(bitArr, bitsBuf, 9);
-		printf("\nnode[%d],type:%d,data:%d,char:%c [", i, node->type, node->data, node->data);
+		printf("\nnode[%d],type:%d,data:%d,char:%x [", i, node->type, node->data, node->data);
 		printBits(bitsBuf, 9);
 		printf("]");
 	}
-
+	
 
 	printf("\n\n--------------- 压入content位数据 End --------------\n\n");
-
 
 	bitsBuf = 0;
 	//原文数据压入位数组 不定长度的位信息
@@ -300,9 +307,9 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, u
 		bitsBuf = codes[datas[i]].code;
 		BitArrayPush(bitArr, bitsBuf, codes[datas[i]].len);
 		//printf("\nlen[%d]:bitsBuf/code:%d", i, bitsBuf);
-		/*printf("\nlen[%d]:bitsBuf/code:%d[", i, bitsBuf);
+		printf("\nlen[%d]:bitsBuf/code:%d[", i, bitsBuf);
 		printBits(bitsBuf, codes[datas[i]].len);
-		printf("]");*/
+		printf("]");
 
 	}
 	printf("\n\n--------------- 压入位数据 End --------------\n\n");
@@ -390,6 +397,7 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	header_read.nodesNum = (uint16_t)BitArrayPop(bitArr, sizeof(header_read.nodesNum) * 8, offset);
 	offset += sizeof(header_read.nodesNum) * 8;
 	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
+	
 
 	header_read.contentCodeLen = BitArrayPop(bitArr, sizeof(header_read.contentCodeLen) * 8, offset);
 	offset += sizeof(header_read.contentCodeLen) * 8;
@@ -431,7 +439,7 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 
 	//DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.contentCodeLen);
 	//写入数据到指定文件
-	const char* filename = "C:\\Users\\DRF\\Desktop\\test2.express";
+	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test2.express";
 	printf("\n写出文件到 %s:\n", filename);
 	FILE* writeStream = fopen(filename, "wb");
 	fwrite(bitArr->data, sizeof(uint8_t), fileBytes, writeStream);
@@ -452,7 +460,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 	Node* n1 = &inNodes[nodesNum - 1];//靠右 1
 	Node* currentNode = NULL;
 
-
+	printf("offset:%d\n",offset);
 	//第一个位 0 靠左 ，1 靠右
 	while (contentBitLens > 0) {
 		readbit = (uint8_t)BitPop(data, 1, offset);
@@ -507,7 +515,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 void DecodeFromFile() {
 
 	printf("\n\n-------------------------------- 文件中读取数据  Start -----------------------------------");
-	const char* filename = "C:\\Users\\DRF\\Desktop\\test2.express";
+	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test2.express";
 	struct DataHeader header_read_file = { .nodesNum = 0,.contentCodeLen = 0,.width = 0,.height = 0 };
 	//读取文件
 	FILE* readStream_file = fopen(filename, "rb");
@@ -536,7 +544,7 @@ void DecodeFromFile() {
 	printf("\nheader_read_file.width:%d\n", header_read_file.width);
 	printf("\nheader_read_file.height:%d\n", header_read_file.height);
 	printf("\nhearead_fileBytes:%d\n", read_fileBytes);
-
+	
 	uint32_t contentBytes = read_fileBytes - sizeof(header_read_file.nodesNum) - sizeof(header_read_file.contentCodeLen) - sizeof(header_read_file.width) - sizeof(header_read_file.height);
 	printf("\contentBytes:%d\n", contentBytes);
 
@@ -564,8 +572,16 @@ void DecodeFromFile() {
 	uint8_t* bgrcolors = (uint8_t*)malloc(header_read_file.width * header_read_file.height * 3);
 	ReadContentData_Infile(readNodes_read_file, header_read_file.nodesNum, read_file_data, offset, header_read_file.contentCodeLen, bgrcolors);
 
+	for (size_t i = 0; i < header_read_file.width * header_read_file.height * 3; i++)
+	{
+		if (i % 8 == 0) {
+			printf("\n");
+		}
+		printf("%x ", bgrcolors[i]);
+	}
+
 	//读取像素值
-	for (size_t i = 0; i < header_read_file.height; i++)
+	/*for (size_t i = 0; i < header_read_file.height; i++)
 	{
 		printf("\n");
 		for (int j = 0; j < header_read_file.width; j++) {
@@ -576,7 +592,7 @@ void DecodeFromFile() {
 			printf("b:%d,", bgrcolors[pixel_index + 0]);
 			printf("]");
 		}
-	}
+	}*/
 	//const char* content = (const char*)read_file_data;
 	//printf("content:%s",content);
 }
