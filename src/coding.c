@@ -36,7 +36,7 @@ void PrintTree(Node* nodes, Node* node, uint32_t indent) {
 	{
 		printf("   ");
 	}
-	printf("Pindex:%d ,Cindex:%d ,data: %x , count：%d ,type:%d", node->parentIndex,node->childIndex, node->data, node->frequcey, node->type);
+	printf("Pindex:%d ,Cindex:%d ,data: %x , count：%d ,type:%d", node->parentIndex, node->childIndex, node->data, node->frequcey, node->type);
 
 	//叶节点 打印叶子
 	if (node->type == 0) {
@@ -60,14 +60,17 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 	//const uint8_t* datas = (const uint8_t*)content;
 	const uint8_t* datas = content;
 	/*不重复的数组元素*/
-	uint8_t data[datasize] = { 0 };
+	uint32_t data[datasize] = { 0 };
 	printf("\ncontent len:%d\n", len);
 	for (size_t i = 0; i < len; i++)
 	{
-		if (i%8==0) {
+		if (i % 3 == 0) {
+			printf("  ");
+		}
+		if (i % 24 == 0) {
 			printf("\n");
 		}
-		printf("%x ",datas[i]);
+		printf("%x ", datas[i]);
 	}
 
 	/*内容下标*/
@@ -88,7 +91,7 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 	printf("\n-----------------------  构建链表 Start -----------------------\n");
 	//构建链表
 	printf("非空数据大小 %d   --- Len: %d\n", no_empty_size, len);
-	
+
 
 	struct LinkList list = CreateList(no_empty_size);
 	Node* nodes = (Node*)calloc(sizeof(Node) * no_empty_size * 2, 1);
@@ -255,7 +258,7 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, u
 	uint32_t header_width_bytes = sizeof(header.width);
 	uint32_t header_height_bytes = sizeof(header.height);
 	printf("header_nodesNum_bytes:%d -- header_contentCodeLen_bytes:%d,header_width_bytes:%d,header_height_bytes:%d\n", header_nodesNum_bytes, header_contentCodeLen_bytes, header_width_bytes, header_height_bytes);
-	
+
 	uint32_t totalBits = nodeNum * 9 + contentBitsLen + header_nodesNum_bytes * 8 + header_contentCodeLen_bytes * 8 + header_width_bytes * 8 + header_height_bytes * 8;
 
 	//用9个位装每个node节点的数据，1位装节点类型，8位装数据，类型 0 叶节点 data则为数据，类型 1 合并节点 data为子节点索引
@@ -296,7 +299,7 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, u
 		printBits(bitsBuf, 9);
 		printf("]");
 	}
-	
+
 
 	printf("\n\n--------------- 压入content位数据 End --------------\n\n");
 
@@ -307,7 +310,7 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, u
 		bitsBuf = codes[datas[i]].code;
 		BitArrayPush(bitArr, bitsBuf, codes[datas[i]].len);
 		//printf("\nlen[%d]:bitsBuf/code:%d", i, bitsBuf);
-		printf("\nlen[%d]:bitsBuf/code:%d[", i, bitsBuf);
+		printf("\nlen[%d]:bitsBuf/code:%d value:%x[", i, bitsBuf,datas[i]);
 		printBits(bitsBuf, codes[datas[i]].len);
 		printf("]");
 
@@ -377,7 +380,7 @@ void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray
 		}
 
 		if (currentNode != NULL && currentNode->type == 0) {
-			printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
+			printf("data : %d  --  char: %x\n", currentNode->data, currentNode->data);
 		}
 	}
 
@@ -397,7 +400,7 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	header_read.nodesNum = (uint16_t)BitArrayPop(bitArr, sizeof(header_read.nodesNum) * 8, offset);
 	offset += sizeof(header_read.nodesNum) * 8;
 	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
-	
+
 
 	header_read.contentCodeLen = BitArrayPop(bitArr, sizeof(header_read.contentCodeLen) * 8, offset);
 	offset += sizeof(header_read.contentCodeLen) * 8;
@@ -416,9 +419,9 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	printf("\ntotalBits：%d\n", totalBits);
 	uint32_t fileBytes = (uint32_t)ceilf((float)totalBits / 8.0f);
 	printf("\nfileBytes：%d\n", fileBytes);
-	
-	printf("current offset：%d\n",offset);
-	
+
+	printf("current offset：%d\n", offset);
+
 	Node* readNodes = (Node*)malloc(header_read.nodesNum * sizeof(Node));
 	for (uint32_t i = 0; i < header_read.nodesNum; i++)
 	{
@@ -439,7 +442,7 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 
 	//DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.contentCodeLen);
 	//写入数据到指定文件
-	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test2.express";
+	const char* filename = "C:\\Users\\DRF\\Desktop\\test2.express";
 	printf("\n写出文件到 %s:\n", filename);
 	FILE* writeStream = fopen(filename, "wb");
 	fwrite(bitArr->data, sizeof(uint8_t), fileBytes, writeStream);
@@ -450,7 +453,7 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 
 }
 
-uint32_t pixelCount = 0;
+uint32_t pixelCount = -1;
 void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uint32_t inOffset, uint32_t inContentBitLens, uint8_t* pixels) {
 	uint8_t readbit = 0;
 	Node* nodes = inNodes;
@@ -460,7 +463,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 	Node* n1 = &inNodes[nodesNum - 1];//靠右 1
 	Node* currentNode = NULL;
 
-	printf("offset:%d\n",offset);
+	printf("offset:%d\n", offset);
 	//第一个位 0 靠左 ，1 靠右
 	while (contentBitLens > 0) {
 		readbit = (uint8_t)BitPop(data, 1, offset);
@@ -501,13 +504,13 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 			}
 		}
 
-		if (currentNode != NULL && currentNode->type == 0) {
+		if (/*currentNode != NULL &&*/ currentNode->type == 0) {
 			//printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
 			//printf("%c", currentNode->data);
 
-			pixels[pixelCount] = currentNode->data;
-			//printf("pixelCount:%d\n", pixelCount);
 			pixelCount++;
+			pixels[pixelCount] = currentNode->data;
+			printf("pixelCount:%d\n", pixelCount);
 		}
 	}
 }
@@ -515,7 +518,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 void DecodeFromFile() {
 
 	printf("\n\n-------------------------------- 文件中读取数据  Start -----------------------------------");
-	const char* filename = "C:\\Users\\Xinyu\\Desktop\\test2.express";
+	const char* filename = "C:\\Users\\DRF\\Desktop\\test2.express";
 	struct DataHeader header_read_file = { .nodesNum = 0,.contentCodeLen = 0,.width = 0,.height = 0 };
 	//读取文件
 	FILE* readStream_file = fopen(filename, "rb");
@@ -544,7 +547,7 @@ void DecodeFromFile() {
 	printf("\nheader_read_file.width:%d\n", header_read_file.width);
 	printf("\nheader_read_file.height:%d\n", header_read_file.height);
 	printf("\nhearead_fileBytes:%d\n", read_fileBytes);
-	
+
 	uint32_t contentBytes = read_fileBytes - sizeof(header_read_file.nodesNum) - sizeof(header_read_file.contentCodeLen) - sizeof(header_read_file.width) - sizeof(header_read_file.height);
 	printf("\contentBytes:%d\n", contentBytes);
 
@@ -574,7 +577,10 @@ void DecodeFromFile() {
 
 	for (size_t i = 0; i < header_read_file.width * header_read_file.height * 3; i++)
 	{
-		if (i % 8 == 0) {
+		if (i % 3 == 0) {
+			printf("  ");
+		}
+		if (i % 24 == 0) {
 			printf("\n");
 		}
 		printf("%x ", bgrcolors[i]);

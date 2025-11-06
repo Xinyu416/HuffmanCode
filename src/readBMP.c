@@ -4,7 +4,7 @@
 
 void ReadBMPFile() {
 	//read .wav .bmp
-	const char* filename_read = "C:\\Users\\Xinyu\\Desktop\\Temp\\colorWRGB.bmp";
+	const char* filename_read = "C:\\Users\\DRF\\Desktop\\Temp\\colorWRGB.bmp";
 	//const char* filename_read = "../assets/color.bmp";
 
 	if (filename_read == NULL)

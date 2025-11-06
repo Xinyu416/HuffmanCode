@@ -13,7 +13,7 @@
 #include "../linklist.h"
 #include "../bitoperate.h"
 
-#define datasize 255
+#define datasize 256
 
 typedef struct unit {
 	uint8_t frequency;
