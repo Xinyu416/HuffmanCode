@@ -126,7 +126,7 @@ bool IsLastListUnit(struct ListUnit* unit) {
 void MultiPrintList(struct LinkList* list) {
 	//printf("first: %c -- last:%c \n", list->firstunit->data, list->endunit->data);
 	struct ListUnit* u = NULL;
-	printf("\narray:");
+	printf("\nlist:");
 	for (uint32_t i = 0; i < list->maxSize; ++i) {
 		u = list->units + i;
 		printf("%d,", u->id);

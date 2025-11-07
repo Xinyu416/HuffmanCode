@@ -4,8 +4,8 @@
 
 void ReadBMPFile() {
 	//read .wav .bmp
-	const char* filename_read = "C:\\Users\\DRF\\Desktop\\Temp\\colorWRGB.bmp";
-	//const char* filename_read = "../assets/color.bmp";
+	//const char* filename_read = "C:\\Users\\DRF\\Desktop\\Temp\\colorWRGB.bmp";
+	const char* filename_read = "C:\\Users\\DRF\\Desktop\\Temp\\color.bmp";
 
 	if (filename_read == NULL)
 	{
@@ -70,7 +70,6 @@ void ReadBMPFile() {
 	{
 		printf("\n");
 		for (int j = 0; j < info.biWidth; j++) {
-			//printf("num:[%d][r:%d,g:%d,b:%d],", (j + i * info.biWidth), bgrcolor[j + i * info.biWidth].r, bgrcolor[j + i * info.biWidth].g, bgrcolor[j + i * info.biWidth].b);
 			int pixel_index = (i * info.biWidth + j) * count;
 
 			printf("[r:%d,", bgrcolors[pixel_index + 2]);
@@ -79,10 +78,7 @@ void ReadBMPFile() {
 			printf("]");
 		}
 	}
-	//const char* content = "Robust Programming The following conditions may cause an exception: The path is not valid for one of the following reasons: it is a zero-length string, it contains only white space, it contains invalid characters, or it is a device path (starts with \.\) (ArgumentException). The path is not valid because it is Nothing (ArgumentNullException). destinationFileName is Nothing or an empty string (ArgumentNullException). The source file is not valid or does not exist (FileNotFoundException). The combined path points to an existing directory, the destination file exists and overwrite is set to False, a file in the target directory with the same name is in use, or the user does not have sufficient permissions to access the file (IOException). A file or directory name in the path contains a colon (:) or is in an invalid format (NotSupportedException). showUI is set to True, onUserCancel is set to ThrowException, and either the user has cancelled the operation or an unspecified I/O error occurs (OperationCanceledException). The path exceeds the system-defined maximum length (PathTooLongException). The user lacks necessary permissions to view the path (SecurityException). The user does not have required permission (UnauthorizedAccessException). See also MoveFile How to: Rename a File How to: Create a Copy of a File in a Different Directory How to: Parse File Paths Collaborate with us on GitHub The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide. .NET feedback .NET is an open source project. Select a link to provide feedback: Open a documentation issue Provide product feedback Additional resources Documentation How to: Rename a File - Visual Basic Learn about how to rename a file with the Visual Basic Runtime Library or the .NET base class library. How to: Parse File Paths - Visual Basic Learn more about: How to: Parse File Paths in Visual Basic How to: Delete a File - Visual Basic Learn more about: How to: Delete a File in Visual Basic Show 2 more";
-	//const uint8_t* datas = (const uint8_t*)content;
-	//const char* content = (const char*)bgrcolor;
-	//const char* content = (const char*)bgrcolors;
+
 	CollectData(bgrcolors, info.biWidth, info.biHeight, info.biWidth * info.biHeight * count);
 }
 

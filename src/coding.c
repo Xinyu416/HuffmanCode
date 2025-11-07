@@ -211,13 +211,14 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 			InsertListUnitToEnd(&list, merge);
 			++numOfUnits;
 		}
-		MultiPrintList(&list);
+		//MultiPrintList(&list);
 	}
+
 	printf("\n-----------------------  合并节点 End -----------------------\n");
 
 	printf("\n\n------- 打印node 节点 nodeNum:%d -------------\n", nodeNum);
 	for (uint32_t i = 0; i < nodeNum; i++) {
-		//printf("\nnode[%d] count: %d(child:%d)  ,type:%d,  data:%d \n", i, (nodes + i)->frequcey, (nodes + i)->childIndex, (nodes + i)->type, (nodes + i)->data);
+		printf("nodes[%d] count: %d(child:%d), type:%d,  data:%x \n", i, (nodes + i)->frequcey, (nodes + i)->childIndex, (nodes + i)->type, (nodes + i)->data);
 	}
 	//编码
 	Coding(nodes, nodeNum, len, datas, width, height);
@@ -310,7 +311,7 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, u
 		bitsBuf = codes[datas[i]].code;
 		BitArrayPush(bitArr, bitsBuf, codes[datas[i]].len);
 		//printf("\nlen[%d]:bitsBuf/code:%d", i, bitsBuf);
-		printf("\nlen[%d]:bitsBuf/code:%d value:%x[", i, bitsBuf,datas[i]);
+		printf("\nlen[%d]:bitsBuf/code:%d value:%x[", i, bitsBuf, datas[i]);
 		printBits(bitsBuf, codes[datas[i]].len);
 		printf("]");
 
@@ -380,7 +381,7 @@ void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray
 		}
 
 		if (currentNode != NULL && currentNode->type == 0) {
-			printf("data : %d  --  char: %x\n", currentNode->data, currentNode->data);
+			//printf("data : %d  --  char: %x\n", currentNode->data, currentNode->data);
 		}
 	}
 
@@ -400,7 +401,6 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	header_read.nodesNum = (uint16_t)BitArrayPop(bitArr, sizeof(header_read.nodesNum) * 8, offset);
 	offset += sizeof(header_read.nodesNum) * 8;
 	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
-
 
 	header_read.contentCodeLen = BitArrayPop(bitArr, sizeof(header_read.contentCodeLen) * 8, offset);
 	offset += sizeof(header_read.contentCodeLen) * 8;
@@ -433,6 +433,7 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 
 		readNodes[i].type = type;
 		(readNodes + i)->data = outdata;
+		//printf("outdata %x \n", outdata);
 	}
 	printf("\noffset：%d\n", offset);
 	printf("\nheader_read.contentCodeLen：%d\n", header_read.contentCodeLen);
@@ -440,7 +441,9 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	printf("\nheader_read.width：%d\n", header_read.width);
 	printf("\nheader_read.height：%d\n", header_read.height);
 
-	//DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.contentCodeLen);
+	//内存中数据解析
+	DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.contentCodeLen);
+
 	//写入数据到指定文件
 	const char* filename = "C:\\Users\\DRF\\Desktop\\test2.express";
 	printf("\n写出文件到 %s:\n", filename);
@@ -453,7 +456,7 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 
 }
 
-uint32_t pixelCount = -1;
+uint32_t pixelCount = 0;
 void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uint32_t inOffset, uint32_t inContentBitLens, uint8_t* pixels) {
 	uint8_t readbit = 0;
 	Node* nodes = inNodes;
@@ -463,8 +466,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 	Node* n1 = &inNodes[nodesNum - 1];//靠右 1
 	Node* currentNode = NULL;
 
-	printf("offset:%d\n", offset);
-	//第一个位 0 靠左 ，1 靠右
+	//第一个位 0 靠左 ，1 靠右 读取一位数据是type值 区分叶子结点和合并节点
 	while (contentBitLens > 0) {
 		readbit = (uint8_t)BitPop(data, 1, offset);
 		offset += 1;
@@ -484,36 +486,23 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 			contentBitLens--;
 			if (readbit == 0) {
 				//左分支
-				if ((currentNode->data) - 1 > 0) {
-
-					currentNode = &nodes[currentNode->data - 1];
-				}
-				else {
-					break;
-				}
+				currentNode = &nodes[currentNode->data - 1];
 			}
 			else {
 				//右分支
-				if ((currentNode->data) > 0) {
-					currentNode = &nodes[currentNode->data];
-				}
-				else
-				{
-					break;
-				}
+				currentNode = &nodes[currentNode->data];
 			}
 		}
-
-		if (/*currentNode != NULL &&*/ currentNode->type == 0) {
+		if (currentNode != NULL && currentNode->type == 0) {
 			//printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
-			//printf("%c", currentNode->data);
-
-			pixelCount++;
 			pixels[pixelCount] = currentNode->data;
-			printf("pixelCount:%d\n", pixelCount);
+			//printf("pixelCount:%d\n", pixelCount);
+			pixelCount++;
 		}
 	}
 }
+
+
 
 void DecodeFromFile() {
 
@@ -570,11 +559,13 @@ void DecodeFromFile() {
 
 		readNodes_read_file[i].type = type;
 		(readNodes_read_file + i)->data = outdata;
+		//printf("outdata:%x\n", outdata);
 	}
 
 	uint8_t* bgrcolors = (uint8_t*)malloc(header_read_file.width * header_read_file.height * 3);
 	ReadContentData_Infile(readNodes_read_file, header_read_file.nodesNum, read_file_data, offset, header_read_file.contentCodeLen, bgrcolors);
 
+	//像素十六进制值
 	for (size_t i = 0; i < header_read_file.width * header_read_file.height * 3; i++)
 	{
 		if (i % 3 == 0) {
@@ -587,7 +578,7 @@ void DecodeFromFile() {
 	}
 
 	//读取像素值
-	/*for (size_t i = 0; i < header_read_file.height; i++)
+	for (size_t i = 0; i < header_read_file.height; i++)
 	{
 		printf("\n");
 		for (int j = 0; j < header_read_file.width; j++) {
@@ -598,7 +589,7 @@ void DecodeFromFile() {
 			printf("b:%d,", bgrcolors[pixel_index + 0]);
 			printf("]");
 		}
-	}*/
+	}
 	//const char* content = (const char*)read_file_data;
 	//printf("content:%s",content);
 }
