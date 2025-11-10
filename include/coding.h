@@ -10,8 +10,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <math.h>
-#include "../linklist.h"
-#include "../bitoperate.h"
+#include "../include/linklist.h"
+#include "../include/bitoperate.h"
 
 #define datasize 256
 

@@ -50,7 +50,7 @@ void PrintTree(Node* nodes, Node* node, uint32_t indent) {
 	}
 }
 
-void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32_t len) {
+void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32_t inDataLen) {
 	//const char* content = "AACDEEGFDEGHKBK";
 	//const char* content = "Robust Programming The following conditions may cause an exception: The path is not valid for one of the following reasons: it is a zero-length string, it contains only white space, it contains invalid characters, or it is a device path (starts with \.\) (ArgumentException). The path is not valid because it is Nothing (ArgumentNullException). destinationFileName is Nothing or an empty string (ArgumentNullException). The source file is not valid or does not exist (FileNotFoundException). The combined path points to an existing directory, the destination file exists and overwrite is set to False, a file in the target directory with the same name is in use, or the user does not have sufficient permissions to access the file (IOException). A file or directory name in the path contains a colon (:) or is in an invalid format (NotSupportedException). showUI is set to True, onUserCancel is set to ThrowException, and either the user has cancelled the operation or an unspecified I/O error occurs (OperationCanceledException). The path exceeds the system-defined maximum length (PathTooLongException). The user lacks necessary permissions to view the path (SecurityException). The user does not have required permission (UnauthorizedAccessException). See also MoveFile How to: Rename a File How to: Create a Copy of a File in a Different Directory How to: Parse File Paths Collaborate with us on GitHub The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide. .NET feedback .NET is an open source project. Select a link to provide feedback: Open a documentation issue Provide product feedback Additional resources Documentation How to: Rename a File - Visual Basic Learn about how to rename a file with the Visual Basic Runtime Library or the .NET base class library. How to: Parse File Paths - Visual Basic Learn more about: How to: Parse File Paths in Visual Basic How to: Delete a File - Visual Basic Learn more about: How to: Delete a File in Visual Basic Show 2 more";
 	//const char* content = "Robust Programming The following conditions may cause an exception: ";
@@ -61,8 +61,8 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 	const uint8_t* datas = content;
 	/*不重复的数组元素*/
 	uint32_t data[datasize] = { 0 };
-	printf("\ncontent len:%d\n", len);
-	for (size_t i = 0; i < len; i++)
+	printf("\ncontent inDataLen:%d\n", inDataLen);
+	for (size_t i = 0; i < inDataLen; i++)
 	{
 		if (i % 3 == 0) {
 			printf("  ");
@@ -75,7 +75,7 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 
 	/*内容下标*/
 	uint32_t index;
-	for (uint32_t i = 0; i < len; i++) {
+	for (uint32_t i = 0; i < inDataLen; i++) {
 		/*用内容当下标，重复值当频率内容*/
 		index = datas[i];
 		data[index]++;
@@ -90,7 +90,7 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 	}
 	printf("\n-----------------------  构建链表 Start -----------------------\n");
 	//构建链表
-	printf("非空数据大小 %d   --- Len: %d\n", no_empty_size, len);
+	printf("非空数据大小 %d   --- Len: %d\n", no_empty_size, inDataLen);
 
 
 	struct LinkList list = CreateList(no_empty_size);
@@ -221,7 +221,7 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 		printf("nodes[%d] count: %d(child:%d), type:%d,  data:%x \n", i, (nodes + i)->frequcey, (nodes + i)->childIndex, (nodes + i)->type, (nodes + i)->data);
 	}
 	//编码
-	Coding(nodes, nodeNum, len, datas, width, height);
+	Coding(nodes, nodeNum, inDataLen, datas, width, height);
 }
 
 void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, uint32_t width, uint32_t height) {
@@ -360,23 +360,23 @@ void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray
 			contentBitLens--;
 			if (readbit == 0) {
 				//左分支
-				if ((currentNode->data) - 1 > 0) {
+				currentNode = &nodes[currentNode->data - 1];
+				/*if ((currentNode->data) - 1 > 0) {
 
-					currentNode = &nodes[currentNode->data - 1];
 				}
 				else {
 					break;
-				}
+				}*/
 			}
 			else {
 				//右分支
-				if ((currentNode->data) > 0) {
-					currentNode = &nodes[currentNode->data];
+				currentNode = &nodes[currentNode->data];
+				/*if ((currentNode->data) > 0) {
 				}
 				else
 				{
 					break;
-				}
+				}*/
 			}
 		}
 
@@ -515,14 +515,11 @@ void DecodeFromFile() {
 		printf("\nreadStream is NULL\n");
 	}
 
-
 	//读取文件头文件
 	fread(&header_read_file.nodesNum, sizeof(header_read_file.nodesNum), 1, readStream_file);
 	fread(&header_read_file.contentCodeLen, sizeof(header_read_file.contentCodeLen), 1, readStream_file);
 	fread(&header_read_file.width, sizeof(header_read_file.width), 1, readStream_file);
 	fread(&header_read_file.height, sizeof(header_read_file.height), 1, readStream_file);
-
-
 
 	//节点数组数据指针
 	Node* readNodes_read_file = (Node*)malloc(header_read_file.nodesNum * sizeof(Node));

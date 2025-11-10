@@ -18,9 +18,6 @@
     <ClCompile Include="HuffmanCode.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="linklist.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="test.c">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -28,9 +25,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="testbits.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="fileRead.c">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\containers.c">
@@ -45,17 +39,14 @@
     <ClCompile Include="src\readBMP.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\fileRead.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\linklist.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bitoperate.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="linklist.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="fileRead.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\containers.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -69,6 +60,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\readBMP.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fileRead.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\linklist.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bitoperate.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

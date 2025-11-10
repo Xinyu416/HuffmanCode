@@ -143,25 +143,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bitoprate.c" />
-    <ClCompile Include="fileRead.c" />
     <ClCompile Include="HuffmanCode.c" />
-    <ClCompile Include="linklist.c" />
     <ClCompile Include="src\coding.c" />
     <ClCompile Include="src\containers.c" />
+    <ClCompile Include="src\fileRead.c" />
+    <ClCompile Include="src\linklist.c" />
     <ClCompile Include="src\map.c" />
     <ClCompile Include="src\readBMP.c" />
     <ClCompile Include="test.c" />
     <ClCompile Include="testbits.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bitoperate.h" />
-    <ClInclude Include="fileRead.h" />
     <ClInclude Include="HuffmanCode.h" />
+    <ClInclude Include="include\bitoperate.h" />
     <ClInclude Include="include\coding.h" />
     <ClInclude Include="include\containers.h" />
+    <ClInclude Include="include\fileRead.h" />
+    <ClInclude Include="include\linklist.h" />
     <ClInclude Include="include\map.h" />
     <ClInclude Include="include\readBMP.h" />
-    <ClInclude Include="linklist.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

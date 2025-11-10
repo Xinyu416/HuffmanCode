@@ -7,19 +7,17 @@ void ReadBMPFile() {
 	//const char* filename_read = "C:\\Users\\DRF\\Desktop\\Temp\\colorWRGB.bmp";
 	const char* filename_read = "C:\\Users\\DRF\\Desktop\\Temp\\color.bmp";
 
-	if (filename_read == NULL)
-	{
-		printf("file is NULL");
-		return;
-	}
 	struct tagBITMAPFILEHEADER head;
 	struct tagBITMAPINFOHEADER info;
 	//struct tagRGBQUAD  color;
 
-
 	//读取文件
 	FILE* rbmp = fopen(filename_read, "rb");
-
+	if (rbmp == NULL)
+	{
+		printf("file is NULL");
+		return;
+	}
 
 	//读指针后移
 	//fgetc(rbmp);
