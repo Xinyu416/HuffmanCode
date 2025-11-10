@@ -62,16 +62,16 @@ void CollectData(const uint8_t* content, uint32_t width, uint32_t height, uint32
 	/*不重复的数组元素*/
 	uint32_t data[datasize] = { 0 };
 	printf("\ncontent inDataLen:%d\n", inDataLen);
-	for (size_t i = 0; i < inDataLen; i++)
-	{
-		if (i % 3 == 0) {
-			printf("  ");
-		}
-		if (i % 24 == 0) {
-			printf("\n");
-		}
-		printf("%x ", datas[i]);
-	}
+	//for (size_t i = 0; i < inDataLen; i++)
+	//{
+	//	if (i % 3 == 0) {
+	//		printf("  ");
+	//	}
+	//	if (i % 24 == 0) {
+	//		printf("\n");
+	//	}
+	//	printf("%x ", datas[i]);
+	//}
 
 	/*内容下标*/
 	uint32_t index;
@@ -260,7 +260,7 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, u
 	uint32_t header_height_bytes = sizeof(header.height);
 	printf("header_nodesNum_bytes:%d -- header_contentCodeLen_bytes:%d,header_width_bytes:%d,header_height_bytes:%d\n", header_nodesNum_bytes, header_contentCodeLen_bytes, header_width_bytes, header_height_bytes);
 
-	uint32_t totalBits = nodeNum * 9 + contentBitsLen + header_nodesNum_bytes * 8 + header_contentCodeLen_bytes * 8 + header_width_bytes * 8 + header_height_bytes * 8;
+	uint32_t totalBits = nodeNum * 10 + contentBitsLen + header_nodesNum_bytes * 8 + header_contentCodeLen_bytes * 8 + header_width_bytes * 8 + header_height_bytes * 8;
 
 	//用9个位装每个node节点的数据，1位装节点类型，8位装数据，类型 0 叶节点 data则为数据，类型 1 合并节点 data为子节点索引
 	//文件字节数
@@ -294,10 +294,10 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, u
 			bitsBuf |= (uint32_t)node->childIndex;
 		}
 		//9位存储节点数据 type在高1位，data在低8位
-		bitsBuf |= (((uint32_t)node->type) << 8);
-		BitArrayPush(bitArr, bitsBuf, 9);
+		bitsBuf |= (((uint32_t)node->type) << 9);
+		BitArrayPush(bitArr, bitsBuf, 10);
 		printf("\nnode[%d],type:%d,data:%d,char:%x [", i, node->type, node->data, node->data);
-		printBits(bitsBuf, 9);
+		printBits(bitsBuf, 10);
 		printf("]");
 	}
 
@@ -311,9 +311,9 @@ void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas, u
 		bitsBuf = codes[datas[i]].code;
 		BitArrayPush(bitArr, bitsBuf, codes[datas[i]].len);
 		//printf("\nlen[%d]:bitsBuf/code:%d", i, bitsBuf);
-		printf("\nlen[%d]:bitsBuf/code:%d value:%x[", i, bitsBuf, datas[i]);
-		printBits(bitsBuf, codes[datas[i]].len);
-		printf("]");
+		//printf("\nlen[%d]:bitsBuf/code:%d value:%x[", i, bitsBuf, datas[i]);
+		//printBits(bitsBuf, codes[datas[i]].len);
+		//printf("]");
 
 	}
 	printf("\n\n--------------- 压入位数据 End --------------\n\n");
@@ -415,7 +415,7 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	printf("\nheader_read.width：%d\n", header_read.height);
 
 
-	uint32_t totalBits = header_read.nodesNum * 9 + header_read.contentCodeLen + sizeof(header_read.nodesNum) * 8 + sizeof(header_read.contentCodeLen) * 8 + sizeof(header_read.width) * 8 + sizeof(header_read.height) * 8;
+	uint32_t totalBits = header_read.nodesNum * 10 + header_read.contentCodeLen + sizeof(header_read.nodesNum) * 8 + sizeof(header_read.contentCodeLen) * 8 + sizeof(header_read.width) * 8 + sizeof(header_read.height) * 8;
 	printf("\ntotalBits：%d\n", totalBits);
 	uint32_t fileBytes = (uint32_t)ceilf((float)totalBits / 8.0f);
 	printf("\nfileBytes：%d\n", fileBytes);
@@ -426,10 +426,10 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	for (uint32_t i = 0; i < header_read.nodesNum; i++)
 	{
 		//按9位取数据
-		buf = BitArrayPop(bitArr, 9, offset);
+		buf = BitArrayPop(bitArr, 10, offset);
 		outdata = (uint8_t)(buf & 0b11111111);
-		type = (uint8_t)((buf >> 8) & 0b00000001);
-		offset += 9;
+		type = (uint8_t)((buf >> 9) & 0b00000001);
+		offset += 10;
 
 		readNodes[i].type = type;
 		(readNodes + i)->data = outdata;
@@ -445,7 +445,7 @@ void ReadAndSaveDataFromContext(struct bitArray* bitArr) {
 	DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.contentCodeLen);
 
 	//写入数据到指定文件
-	const char* filename = "C:\\Users\\DRF\\Desktop\\test2.express";
+	const char* filename = "C:\\Users\\Xinyu\\Desktop\\Temp\\test2.xx";
 	printf("\n写出文件到 %s:\n", filename);
 	FILE* writeStream = fopen(filename, "wb");
 	fwrite(bitArr->data, sizeof(uint8_t), fileBytes, writeStream);
@@ -507,7 +507,7 @@ void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uin
 void DecodeFromFile() {
 
 	printf("\n\n-------------------------------- 文件中读取数据  Start -----------------------------------");
-	const char* filename = "C:\\Users\\DRF\\Desktop\\test2.express";
+	const char* filename = "C:\\Users\\Xinyu\\Desktop\\Temp\\test2.xx";
 	struct DataHeader header_read_file = { .nodesNum = 0,.contentCodeLen = 0,.width = 0,.height = 0 };
 	//读取文件
 	FILE* readStream_file = fopen(filename, "rb");
@@ -524,7 +524,7 @@ void DecodeFromFile() {
 	//节点数组数据指针
 	Node* readNodes_read_file = (Node*)malloc(header_read_file.nodesNum * sizeof(Node));
 	//总字节数
-	uint32_t totalBits_file = header_read_file.nodesNum * 9 + header_read_file.contentCodeLen + sizeof(header_read_file.nodesNum) * 8 + sizeof(header_read_file.contentCodeLen) * 8 + sizeof(header_read_file.width) * 8 + sizeof(header_read_file.height) * 8;
+	uint32_t totalBits_file = header_read_file.nodesNum * 10 + header_read_file.contentCodeLen + sizeof(header_read_file.nodesNum) * 8 + sizeof(header_read_file.contentCodeLen) * 8 + sizeof(header_read_file.width) * 8 + sizeof(header_read_file.height) * 8;
 	uint32_t read_fileBytes = (uint32_t)ceilf((float)totalBits_file / 8.0f);
 
 
@@ -547,12 +547,11 @@ void DecodeFromFile() {
 
 	for (uint32_t i = 0; i < header_read_file.nodesNum; i++)
 	{
-
 		//按9位取数据
-		buf = BitPop(read_file_data, 9, offset);
+		buf = BitPop(read_file_data, 10, offset);
 		outdata = (uint8_t)(buf & 0b11111111);
-		type = (uint8_t)((buf >> 8) & 0b00000001);
-		offset += 9;
+		type = (uint8_t)((buf >> 9) & 0b00000001);
+		offset += 10;
 
 		readNodes_read_file[i].type = type;
 		(readNodes_read_file + i)->data = outdata;

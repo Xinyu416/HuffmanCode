@@ -13,9 +13,9 @@ struct ListUnit {
 	struct ListUnit* next;
 	uint32_t id;
 	uint32_t count;
-	uint8_t data;
+	uint16_t data;
 	uint8_t type; //0 叶子节点, 1 合并节点
-	uint8_t block[6];
+	uint8_t block[1];
 };
 
 

@@ -1,5 +1,13 @@
-﻿  fileRead.c
+﻿  coding.c
+C:\CProject\HuffmanCode\src\coding.c(232,32): warning C4020: “PrintTree”: 实参太多
+C:\CProject\HuffmanCode\src\coding.c(233,36): warning C4020: “PrintTree”: 实参太多
+C:\CProject\HuffmanCode\src\coding.c(241,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+C:\CProject\HuffmanCode\src\coding.c(241,35): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+C:\CProject\HuffmanCode\src\coding.c(242,45): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+C:\CProject\HuffmanCode\src\coding.c(242,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+C:\CProject\HuffmanCode\src\coding.c(498,42): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
+C:\CProject\HuffmanCode\src\coding.c(538,9): warning C4129: “c”: 不可识别的字符转义序列
+C:\CProject\HuffmanCode\src\coding.c(580,21): warning C4018: “<”: 有符号/无符号不匹配
   test.c
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winbase.h(9572,5): warning C5105: 生成“已定义”的宏扩展具有未定义的行为
   正在生成代码...
-  HuffmanCode.vcxproj -> D:\QXY\cpp\CODEC\Debug\HuffmanCode.exe
+  HuffmanCode.vcxproj -> C:\CProject\HuffmanCode\Debug\HuffmanCode.exe

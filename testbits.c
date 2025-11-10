@@ -1,4 +1,4 @@
-#include "../CODEC/include/bitoperate.h"
+#include "include/bitoperate.h"
 
 int main__() {
 	/*uint8_t data = 15;

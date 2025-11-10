@@ -1,15 +1,15 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-#include "../CODEC/include/linklist.h"
+#include "include/linklist.h"
 #include "HuffmanCode.h"
 #include <math.h>
 #include <time.h> 
-#include "../CODEC/include/bitoperate.h"
+#include "include/bitoperate.h"
 #include "include/containers.h"
 #include "include/coding.h"
 #include "include/map.h"
 #include "include/readBMP.h"
-#include "../CODEC/include/fileRead.h"
+#include "include/fileRead.h"
 
 int main() {
 	/*±‡Ω‚¬Î ªÙ∑Ú¬¸code*/
@@ -22,8 +22,8 @@ int main() {
 	//MapTest();
 
 	// ±‡Ω‚¬Î≤‚ ‘
-	/*ReadBMPFile();
-	TestCoding();*/
+	ReadBMPFile();
+	TestCoding();
 
 	FileReadTest();
 }

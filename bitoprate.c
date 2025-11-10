@@ -1,4 +1,4 @@
-#include "../CODEC/include/bitoperate.h"
+#include "include/bitoperate.h"
 #include <math.h>
 #include "HuffmanCode.h"
 

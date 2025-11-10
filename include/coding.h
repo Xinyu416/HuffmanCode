@@ -16,20 +16,21 @@
 #define datasize 256
 
 typedef struct unit {
-	uint8_t frequency;
-	uint8_t childIndex;
-	uint8_t data;
+	uint32_t frequency;
+	uint16_t childIndex;
+	uint16_t data;
 	struct unit* preview;
 	struct unit* next;
 	uint8_t type;		//0：叶节点，1：合并节点
 }Unit;
 
 typedef struct node {
-	uint8_t frequcey;
-	uint8_t data;			//节点数据值
-	uint8_t childIndex;		//左子节点下标
-	uint8_t parentIndex;	//父节点下标
+	uint32_t frequcey;
+	uint16_t data;			//节点数据值
+	uint16_t childIndex;		//左子节点下标
+	uint16_t parentIndex;	//父节点下标
 	uint8_t type;			//0：叶节点，1：合并节点
+	uint8_t block[1];
 }Node;
 
 typedef struct code {
