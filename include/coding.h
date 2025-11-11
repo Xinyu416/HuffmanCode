@@ -51,13 +51,13 @@ void GenerateCode(Node* nodes, Node* node, uint32_t bit, Code* codes, Code c, ui
 
 void PrintTree(Node* nodes, Node* node, uint32_t indent);
 
-void CollectData(const uint8_t* content, uint32_t len);
+//void CollectData(const uint8_t* content, uint32_t len);
 
-void Coding(Node* nodes, uint32_t nodeNum, uint32_t len, const uint8_t* datas);
+struct bitArray Coding(const uint8_t* content, uint32_t len);
 
-void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray* bitArr, uint32_t inOffset, uint32_t inContentBitLens);
+void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray* bitArr, uint32_t inOffset, uint32_t inContentBitLens,uint8_t*outData);
 
-void ReadAndSaveDataFromContext(struct bitArray* bitArr);
+uint8_t* Decoding(struct bitArray* bitArr);
 
 uint8_t* DecodeFromFile();
 
