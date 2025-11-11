@@ -33,7 +33,7 @@ struct LinkList {
 struct LinkList CreateList(const uint32_t maxsize);
 
 /*创建新链表元素*/
-struct ListUnit* CreateListUnit(struct LinkList* list, uint32_t count, uint8_t data, uint8_t type);
+struct ListUnit* CreateListUnit(struct LinkList* list, uint32_t count, uint16_t data, uint8_t type);
 
 /*移除元素*/
 void RemoveListUnit(struct LinkList* list, struct ListUnit* unit);

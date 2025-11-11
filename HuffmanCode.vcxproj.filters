@@ -21,9 +21,6 @@
     <ClCompile Include="test.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="bitoprate.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="testbits.c">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -43,6 +40,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\linklist.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bitoprate.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

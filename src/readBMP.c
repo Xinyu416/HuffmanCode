@@ -4,8 +4,8 @@
 
 void ReadBMPFile() {
 	//read .wav .bmp
-	//const char* filename_read = "C:\\Users\\DRF\\Desktop\\Temp\\colorWRGB.bmp";
-	const char* filename_read = "C:\\Users\\Xinyu\\Desktop\\Temp\\color.bmp";
+	const char* filename_read = "C:\\Users\\DRF\\Desktop\\Temp\\colorWRGB.bmp";
+	//const char* filename_read = "C:\\Users\\Xinyu\\Desktop\\Temp\\color.bmp";
 
 	struct tagBITMAPFILEHEADER head;
 	struct tagBITMAPINFOHEADER info;
@@ -64,7 +64,7 @@ void ReadBMPFile() {
 	{
 		fread(&bgrcolors[i], sizeof(uint8_t), 1, rbmp);
 	}
-	for (size_t i = 0; i < info.biHeight; i++)
+	/*for (size_t i = 0; i < info.biHeight; i++)
 	{
 		printf("\n");
 		for (int j = 0; j < info.biWidth; j++) {
@@ -75,7 +75,7 @@ void ReadBMPFile() {
 			printf("b:%d,", bgrcolors[pixel_index + 0]);
 			printf("]");
 		}
-	}
+	}*/
 
 	CollectData(bgrcolors, info.biWidth, info.biHeight, info.biWidth * info.biHeight * count);
 }

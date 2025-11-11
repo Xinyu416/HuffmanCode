@@ -331,10 +331,10 @@ void testRand() {
 		{
 			uint32_t v = (uint32_t)rand();
 			char skey[5] = "1234";
-			skey[0] = (char)(rand() % 25 + 65);;
-			skey[1] = (char)(rand() % 25 + 65);;
-			skey[2] = (char)(rand() % 25 + 65);;
-			skey[3] = (char)(rand() % 25 + 65);;
+			skey[0] = (char)(rand() % 25 + 65);
+			skey[1] = (char)(rand() % 25 + 65);
+			skey[2] = (char)(rand() % 25 + 65);
+			skey[3] = (char)(rand() % 25 + 65);
 			skey[4] = 0;
 
 			printf("[char:%s,", skey);

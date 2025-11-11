@@ -3,7 +3,11 @@
 #include "../include/coding.h"
 
 void FileReadTest() {
-	const char* filename = "C:\\Users\\Xinyu\\Desktop\\Temp\\test.mp4";
+	//const char* filename = "C:\\Users\\Xinyu\\Desktop\\Temp\\test.mp4";
+	//const char* filename = "C:\\Users\\DRF\\Desktop\\Temp\\test.mp4";
+	//const char* filename = "C:\\Users\\DRF\\Desktop\\Temp\\colorWRGB.bmp";
+	const char* filename = "C:\\Users\\DRF\\Desktop\\Temp\\HoloKnight.jpg";
+	//const char* filename = "C:\\Users\\DRF\\Desktop\\Temp\\shine_zl.png";
 
 	//读取文件
 	FILE* f = fopen(filename, "rb");
@@ -12,22 +16,36 @@ void FileReadTest() {
 		return;
 	}
 	long size = ftell(f);
-	printf("size:%d\n",size);
+	printf("size:%d\n", size);
 
-	rewind(f);
+	//重新回到文件头
+	/*rewind(f);
 	uint8_t* datas = (uint8_t*)malloc(size);
-	fread(datas,1,size,f);
-	fclose(f);
 
-	CollectData(datas, 255, 255, size);
+	fread(datas, 1, size, f);
+	fclose(f);*/
+	size = 20;
+	uint8_t* datas = (uint8_t*)malloc(size);
+	srand(time(NULL));
+	for (size_t i = 0; i < size; i++)
+	{
+		datas[i] = (uint8_t)(rand() % 255);
+		printf("data[%d]:%x\n",i,datas[i]);
+	}
 
-	//写入数据到指定文件
-	//const char* fw = "C:\\Users\\Xinyu\\Desktop\\Temp\\test2.xx";
-	//printf("\n写出文件到: %s\n", fw);
-	//FILE* writeStream = fopen(fw, "wb");
+	CollectData(datas, size);
 
-	//fwrite(datas,1,size, writeStream);
+	//uint8_t* readDatas = DecodeFromFile();
+	//printf("size:%d\n", size);
+	//for (size_t i = 0; i < size; i++)
+	//{
+	//	//printf("比对数据 %d\n", i);
+	//	if (datas[i] != readDatas[i]) {
+	//		printf("index = %d\n", i);
+	//		printf("origin : %x , read : %x \n", datas[i], readDatas[i]);
+	//		break;
+	//	}
+	//}
+	//printf("比对完成");
 
-
-	
 }

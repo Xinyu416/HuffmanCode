@@ -22,8 +22,7 @@ int main() {
 	//MapTest();
 
 	// ±‡Ω‚¬Î≤‚ ‘
-	ReadBMPFile();
-	TestCoding();
-
 	FileReadTest();
+	//DecodeFromFile();
+	
 }

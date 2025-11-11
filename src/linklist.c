@@ -7,7 +7,7 @@ struct LinkList CreateList(const uint32_t maxsize) {
 	return list;
 }
 
-struct ListUnit* CreateListUnit(struct LinkList* list, uint32_t count, uint8_t data, uint8_t type) {
+struct ListUnit* CreateListUnit(struct LinkList* list, uint32_t count, uint16_t data, uint8_t type) {
 	struct ListUnit* u = NULL;
 	for (uint32_t i = 0; i < list->maxSize; i++) {
 		u = list->units + i;

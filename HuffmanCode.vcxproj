@@ -142,8 +142,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="bitoprate.c" />
     <ClCompile Include="HuffmanCode.c" />
+    <ClCompile Include="src\bitoprate.c" />
     <ClCompile Include="src\coding.c" />
     <ClCompile Include="src\containers.c" />
     <ClCompile Include="src\fileRead.c" />
