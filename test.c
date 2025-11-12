@@ -1,7 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "include/linklist.h"
-#include "HuffmanCode.h"
 #include <math.h>
 #include <time.h> 
 #include "include/bitoperate.h"
@@ -29,4 +28,5 @@ int main() {
 	doCompress(file);
 	doDeCompress();*/
 	FileReadTest();
+
 }

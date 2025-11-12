@@ -63,9 +63,4 @@ void _DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArra
 
 uint8_t* Decoding(struct bitArray* bitArr);
 
-uint8_t* DecodeFromFile();
-
-void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uint32_t inOffset, uint32_t bytesCount);
-
-void TestCoding();
 #endif 

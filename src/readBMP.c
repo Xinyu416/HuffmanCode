@@ -77,7 +77,6 @@ void ReadBMPFile() {
 		}
 	}*/
 
-	//CollectData(bgrcolors, info.biWidth, info.biHeight, info.biWidth * info.biHeight * count);
 }
 
 

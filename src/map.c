@@ -125,49 +125,6 @@ void AddMapElement(Map* map, const char* skey, void* value) {
 		}
 		map->mapLen++;
 	}
-
-	////第一个元素为空
-	//if (map->data[mapIndex] == NULL) {
-	//	//不存在 添加
-	//	MapElement* e = (MapElement*)calloc(1, sizeof(MapElement));
-	//	e->value = (uint8_t*)malloc(map->valueSize);
-	//	memcpy(e->value, value, map->valueSize);
-	//	e->key = ikey;
-	//	e->next = NULL;
-	//	map->data[mapIndex] = e;
-	//	map->mapLen++;
-	//	printf("\n %s %d : 第一个槽位为空 添加元素\n", skey, e->key);
-	//}
-	//else {
-	//	bool isReplace = false;
-	//	//槽位有元素存在 判断元素内容是否重复 从头元素往下找
-	//	MapElement* current = map->data[mapIndex];
-	//	while (current != NULL) {
-	//		if (current->key == ikey) {
-
-	//			//键相同 替换值
-	//			memcpy(current->value, value, map->valueSize);
-	//			printf("\n %s :键相同 替换值\n", skey);
-	//			isReplace = true;
-	//			break;
-	//		}
-	//		current = current->next;
-	//	}
-
-	//	if (!isReplace) {
-	//		//没有相同键值元素 新增元素
-	//		MapElement* e = (MapElement*)calloc(1, sizeof(MapElement));
-	//		e->key = ikey;
-	//		e->next = NULL;
-	//		e->value = (uint8_t*)malloc(map->valueSize);
-	//		memcpy(e->value, value, map->valueSize);
-
-	//		MapElement* temp = map->data[mapIndex];
-	//		e->next = temp;
-	//		map->data[mapIndex] = e;
-	//		printf("\n [%d][%s,%d] :槽位头有元素 添加到槽位头\n", mapIndex, skey, e->key);
-	//	}
-	//}
 }
 
 bool RemoveMapElement(Map* map, const char* skey) {
@@ -233,7 +190,8 @@ MapElement* FindMapElement(Map* map, const char* skey) {
 }
 
 uint32_t GetMapKeys(Map* map, uint32_t* mapKeys) {
-	uint32_t index = 0;//元素计数
+	//Element count
+	uint32_t index = 0;
 	for (size_t i = 0; i < SlotNum; i++)
 	{
 		MapElement* e = map->data[i];

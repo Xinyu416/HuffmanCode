@@ -142,7 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="HuffmanCode.c" />
     <ClCompile Include="src\bitoprate.c" />
     <ClCompile Include="src\coding.c" />
     <ClCompile Include="src\containers.c" />
@@ -154,7 +153,6 @@
     <ClCompile Include="testbits.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HuffmanCode.h" />
     <ClInclude Include="include\bitoperate.h" />
     <ClInclude Include="include\coding.h" />
     <ClInclude Include="include\containers.h" />

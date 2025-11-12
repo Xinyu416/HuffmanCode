@@ -1,5 +1,25 @@
-﻿  fileRead.c
+﻿  coding.c
+D:\QXY\cpp\CODEC\src\coding.c(136,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
+D:\QXY\cpp\CODEC\src\coding.c(150,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
+D:\QXY\cpp\CODEC\src\coding.c(194,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\CODEC\src\coding.c(194,35): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+D:\QXY\cpp\CODEC\src\coding.c(195,45): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\CODEC\src\coding.c(195,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+  fileRead.c
 D:\QXY\cpp\CODEC\src\fileRead.c(62,37): warning C4047: “函数”:“bitArray *”与“uint8_t **”的间接级别不同
 D:\QXY\cpp\CODEC\src\fileRead.c(62,30): warning C4024: “Decoding”: 形参和实参 1 的类型不同
-D:\QXY\cpp\CODEC\src\fileRead.c(115,24): warning C4018: “<”: 有符号/无符号不匹配
+D:\QXY\cpp\CODEC\src\fileRead.c(116,24): warning C4018: “<”: 有符号/无符号不匹配
+  map.c
+D:\QXY\cpp\CODEC\src\map.c(16,36): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(50,30): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(50,33): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(50,37): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(50,38): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(286,13): warning C4013: “time”未定义；假设外部返回 int
+D:\QXY\cpp\CODEC\src\map.c(327,1): warning C4047: “初始化”:“uint32_t”与“uint32_t *”的间接级别不同
+  readBMP.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winbase.h(9572,5): warning C5105: 生成“已定义”的宏扩展具有未定义的行为
+  test.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winbase.h(9572,5): warning C5105: 生成“已定义”的宏扩展具有未定义的行为
+  正在生成代码...
   HuffmanCode.vcxproj -> D:\QXY\cpp\CODEC\Debug\HuffmanCode.exe

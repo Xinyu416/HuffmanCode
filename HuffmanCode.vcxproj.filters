@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HuffmanCode.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="test.c">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\containers.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="HuffmanCode.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\coding.h">

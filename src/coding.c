@@ -6,18 +6,7 @@ void GenerateCode(Node* nodes, Node* node, uint32_t bit, Code* codes, Code c, ui
 	c.len = c.len + 1;
 	//从树节点的上到下 位序从低到高
 	c.code |= bit << (c.len - 1);
-
-	//printf("\n");
-	for (size_t i = 0; i < indent; i++)
-	{
-		//printf("  ");
-	}
 	if (node->type == 0) {
-		//printf("index:%d ,data: %d , count：%d ,type:%d  ", node->parentIndex, node->data, node->frequcey, node->type);
-	/*	for (size_t i = 0; i < indent; i++)
-		{
-			printf("  ");
-		}*/
 		codes[node->data] = c;
 		return;
 	}
@@ -51,7 +40,6 @@ void PrintTree(Node* nodes, Node* node, uint32_t indent) {
 }
 
 struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
-
 	const uint8_t* datas = content;
 	/*不重复的数组元素*/
 	uint32_t data[datasize] = { 0 };
@@ -190,12 +178,6 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 		}
 		//MultiPrintList(&list);
 	}
-	//printf("\n-----------------------  合并节点 End -----------------------\n");
-
-	//printf("\n\n------- 打印node 节点 nodeNum:%d -------------\n", nodeNum);
-	for (uint32_t i = 0; i < nodeNum; i++) {
-		//printf("nodes[%d] count: %d(child:%d), type:%d,  data:%x \n", i, (nodes + i)->frequcey, (nodes + i)->childIndex, (nodes + i)->type, (nodes + i)->data);
-	}
 
 	Code codes[256] = { 0 };
 	Node* tempNode = nodes + nodeNum - 1;
@@ -208,20 +190,16 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 	Code c0 = { .code = 0,.len = 0 };
 	Code c1 = { .code = 1,.len = 0 };
 
-	//printf("\n ------------- 递归编码 Start -------------\n");
+	/*递归编码*/
 	GenerateCode(nodes, tempNode, 1, &codes, c1, 0);
 	GenerateCode(nodes, tempNode - 1, 0, &codes, c0, 0);
-	//printf("\n ------------- 打印编码  End -------------\n");
 
-
-	//printf("\n--------------- 压入位数据 Start --------------\n");
 	uint32_t contentBitsLen = 0;
 	//统计原文数据位长度
 	for (uint32_t i = 0; i < inDataLen; i++)
 	{
 		contentBitsLen += codes[datas[i]].len;
 	}
-
 	struct DataHeader header = { .nodesNum = nodeNum,.byteCount = inDataLen };
 	uint32_t header_byteCount = sizeof(header.byteCount);
 	uint32_t nodeBitsNum = 9;
@@ -237,14 +215,14 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 	uint32_t bitsBuf = 0;
 	node = NULL;
 
-	//将头信息压入位数组
+	/*将头信息压入位数组*/
 	BitArrayPush(bitArr, header.nodesNum, 9);//节点数 9 位 最大 510 9位足够装
 	BitArrayPush(bitArr, header.byteCount, header_byteCount * 8);
 
 	printf("nodeNum:%d -- header.byteCount:%d -- contentBitsLen:%d\n", nodeNum, header.byteCount, contentBitsLen);
 
 
-	//将树信息压入位数组
+	/*将树信息压入位数组*/
 	for (uint32_t i = 0; i < nodeNum; i++)
 	{
 		node = nodes + i;
@@ -397,125 +375,4 @@ uint8_t* Decoding(struct bitArray* bitArr) {
 	free(readNodes);
 	return outData;
 
-}
-
-void ReadContentData_Infile(Node* inNodes, uint16_t nodesNum, uint8_t* data, uint32_t inOffset, uint32_t bytesCount) {
-	uint8_t readbit = 0;
-	Node* nodes = inNodes;
-	uint32_t offset = inOffset;
-	uint32_t itemCount = 0;
-	Node* n0 = &inNodes[nodesNum - 2];//靠左 0
-	Node* n1 = &inNodes[nodesNum - 1];//靠右 1
-	Node* currentNode = NULL;
-
-	//第一个位 0 靠左 ，1 靠右 读取一位数据是type值 区分叶子结点和合并节点
-	while (true) {
-		readbit = (uint8_t)BitPop(data, 1, offset);
-		offset += 1;
-		if (readbit == 0) {
-			currentNode = n0;
-		}
-		else
-		{
-			currentNode = n1;
-		}
-
-		while (currentNode != NULL && currentNode->type == 1) {
-			//非叶节点 读子数据
-			readbit = (uint8_t)BitPop(data, 1, offset);
-			offset += 1;
-			if (readbit == 0) {
-				//左分支
-				currentNode = &nodes[currentNode->childIndex - 1];
-			}
-			else {
-				//右分支
-				currentNode = &nodes[currentNode->childIndex];
-			}
-		}
-		if (currentNode != NULL && currentNode->type == 0) {
-			//printf("data : %d  --  char: %c\n", currentNode->data, currentNode->data);
-			//printf("itemCount:%d\n", itemCount);
-			itemCount++;
-		}
-
-		if (itemCount >= bytesCount) {
-			break;
-		}
-	}
-}
-
-
-
-uint8_t* DecodeFromFile() {
-
-	printf("\n\n-------------------------------- 文件中读取数据  Start -----------------------------------");
-	//const char* filename = "C:\\Users\\Xinyu\\Desktop\\Temp\\test2.xx";
-	const char* filename = "C:\\Users\\DRF\\Desktop\\Temp\\test2.xx";
-	struct DataHeader header_read_file = { .nodesNum = 0,.byteCount = 0 };
-	//读取文件
-	FILE* readStream_file = fopen(filename, "rb");
-	if (readStream_file == NULL) {
-		printf("\nreadStream is NULL\n");
-	}
-	if (fseek(readStream_file, 0, SEEK_END) != 0) {
-		return;
-	}
-	long size = ftell(readStream_file);
-	printf("\nsize:%d\n", size);
-	return;
-	//重新回到文件头
-	rewind(readStream_file);
-	uint8_t* datas = (uint8_t*)malloc(size);
-	fread(datas, 1, size, readStream_file);
-	uint32_t offset = 0;
-
-	//读取文件头文件
-	header_read_file.nodesNum = BitPop(datas, 9, offset); offset += 9;
-	header_read_file.byteCount = BitPop(datas, 32, offset); offset += 32;
-
-	printf("header_read_file.nodesNum:%d\n", header_read_file.nodesNum);
-
-	//节点数组数据指针
-	Node* readNodes_read_file = (Node*)malloc(header_read_file.nodesNum * sizeof(Node));
-	//总字节数
-	printf("\nheader_read_file.nodesNum:%d\n", header_read_file.nodesNum);
-	printf("\nheader_read_file.byteCount:%d\n", header_read_file.byteCount);
-
-	//总数据指针 内容的位信息从文件中读取后再操作
-
-	uint32_t buf = 0;
-	uint8_t type = 0;
-	uint8_t outdata = 0;
-
-	for (uint32_t i = 0; i < header_read_file.nodesNum; i++)
-	{
-		type = BitPop(datas, 1, offset); offset += 1;
-		readNodes_read_file[i].type = type;
-		if (type == 0) {
-			readNodes_read_file[i].data = BitPop(datas, 9, offset); offset += 9;
-			readNodes_read_file[i].childIndex = 0;
-		}
-		else {
-			readNodes_read_file[i].childIndex = BitPop(datas, 9, offset); offset += 9;
-			readNodes_read_file[i].data = 0;
-		}
-	}
-
-	uint8_t* outDatas = (uint8_t*)malloc(header_read_file.byteCount);
-	ReadContentData_Infile(readNodes_read_file, header_read_file.nodesNum, datas, offset, header_read_file.byteCount);
-
-	//写入数据到指定文件
-	const char* fw = "C:\\Users\\DRF\\Desktop\\Temp\\test5.xx";
-	printf("\n写出文件到: %s\n", fw);
-	FILE* writeStream = fopen(fw, "wb");
-
-	fwrite(outDatas, 1, header_read_file.byteCount, writeStream);
-	fclose(writeStream);
-	return outDatas;
-}
-
-void TestCoding() {
-	/*CollectData();*/
-	DecodeFromFile();
 }
