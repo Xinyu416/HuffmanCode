@@ -14,10 +14,10 @@ void GenerateCode(Node* nodes, Node* node, uint32_t bit, Code* codes, Code c, ui
 	}
 	if (node->type == 0) {
 		//printf("index:%d ,data: %d , count：%d ,type:%d  ", node->parentIndex, node->data, node->frequcey, node->type);
-		for (size_t i = 0; i < indent; i++)
+	/*	for (size_t i = 0; i < indent; i++)
 		{
 			printf("  ");
-		}
+		}*/
 		codes[node->data] = c;
 		return;
 	}
@@ -49,161 +49,6 @@ void PrintTree(Node* nodes, Node* node, uint32_t indent) {
 		PrintTree(nodes, child1, indent);
 	}
 }
-//
-//void CollectData(const uint8_t* content, uint32_t inDataLen) {
-//	const uint8_t* datas = content;
-//	/*不重复的数组元素*/
-//	uint32_t data[datasize] = { 0 };
-//
-//	/*内容下标*/
-//	uint32_t index;
-//	for (uint32_t i = 0; i < inDataLen; i++) {
-//		/*用内容当下标，重复值当频率内容*/
-//		index = datas[i];
-//		data[index]++;
-//	}
-//
-//	/*统计非空数据量*/
-//	uint32_t no_empty_size = 0;
-//	for (uint32_t i = 0; i < datasize; i++) {
-//		if (data[i] >= 1) {
-//			no_empty_size++;
-//		}
-//	}
-//	printf("\n-----------------------  构建链表 Start -----------------------\n");
-//	//构建链表
-//	printf("非空数据大小 %d   --- Len: %d\n", no_empty_size, inDataLen);
-//
-//
-//	struct LinkList list = CreateList(no_empty_size);
-//	Node* nodes = (Node*)calloc(sizeof(Node) * no_empty_size * 2, 1);
-//	Node* node = NULL;
-//	uint32_t nodeNum = 0;
-//
-//	/*对非空数据排序 按频率升序写入units*/
-//	uint32_t unit_index = 0;
-//	uint32_t minsize = UINT32_MAX;
-//
-//	uint8_t value = 0;
-//	uint32_t count = 0;
-//	bool isContinue = false;
-//	while (true) {
-//		value = 0;
-//		isContinue = false;
-//		//下标即为值（0~255）
-//		for (uint32_t j = 0; j < datasize; j++) {
-//			count = data[j];
-//			if (count != 0 && minsize >= count) {
-//				value = (uint8_t)j;
-//				minsize = count;
-//				isContinue = true;
-//			}
-//		}
-//		if (isContinue) {
-//			struct ListUnit* u = CreateListUnit(&list, minsize, value, 0);
-//			InsertListUnitToEnd(&list, u);
-//			//将原始数据清空 数据值往新数组迁移
-//			data[value] = 0;
-//			minsize = UINT32_MAX;
-//		}
-//		else {
-//			break;
-//		}
-//	}
-//
-//	printf("\n-----------------------  构建链表 End -----------------------\n");
-//
-//	printf("\n-----------------------  合并节点 Start -----------------------\n");
-//
-//	//合并插入到原链表
-//	struct ListUnit* first = list.firstunit;//链表头元素
-//	struct ListUnit* currentUnit = NULL;
-//	struct ListUnit* u1 = NULL;//链表第一个元素
-//	struct ListUnit* u2 = NULL;//链表第二个元素
-//	struct ListUnit* last = NULL; //链表最后一个元素
-//	struct ListUnit* merge = NULL;
-//	//合并元素属性
-//	uint32_t newCount = 0;
-//	uint32_t numOfUnits = no_empty_size;
-//
-//	printf("\nnumOfUnits %d\n", numOfUnits);
-//	//MultiPrintList(&list);
-//	while (numOfUnits > 1) {
-//		//printf("first unit data -- %c ,count:%d\n", first->data, first->count);
-//		u1 = first;
-//		u2 = first->next;
-//		if (u1->next != NULL) {
-//		}
-//		first = u2->next;
-//		if (u2->next != NULL) {
-//		}
-//		newCount = u1->count + u2->count;
-//
-//		//先移除链表前两个元素，空出位置放入合并的新元素
-//		node = nodes + nodeNum;
-//		node->frequcey = u1->count;
-//		node->type = u1->type;
-//		node->parentIndex = nodeNum;
-//		//合并节点的子节点设置
-//		if (node->type == 1) {
-//			node->data = 0;
-//			node->childIndex = u1->data;
-//		}
-//		else {
-//			node->data = u1->data;
-//		}
-//		++nodeNum;
-//		//第二个节点处理
-//		node = nodes + nodeNum;
-//		node->type = u2->type;
-//		node->frequcey = u2->count;
-//		node->parentIndex = nodeNum;
-//		//合并节点的子节点设置
-//		if (node->type == 1) {
-//			node->data = 0;
-//			node->childIndex = u2->data;
-//		}
-//		else {
-//			node->data = u2->data;
-//		}
-//		++nodeNum;
-//		//从原链表移除
-//		RemoveListUnit(&list, u1); numOfUnits--;
-//		RemoveListUnit(&list, u2); numOfUnits--;
-//		//合并的元素
-//		//创建新的组合单元并插入到单元集合中，并标记单元类型为组合单元（type=1），data中存的是指向成员单元的索引（因为两个成员单元的索引是相邻的所以只要储存一个就可以）
-//		merge = CreateListUnit(&list, newCount, nodeNum - 1, 1);
-//		currentUnit = first;
-//		while (currentUnit != NULL) {
-//			if (currentUnit->count > merge->count) {
-//				if (IsFirstListUnit(currentUnit)) {
-//					first = merge;
-//				}
-//				InsertListUnitPreview(&list, currentUnit, merge);
-//				++numOfUnits;
-//				break;
-//			}
-//			if (IsLastListUnit(currentUnit)) {
-//				last = currentUnit;
-//			}
-//			currentUnit = currentUnit->next;
-//		}
-//		//插入到最后一个
-//		if (last != NULL) {
-//			InsertListUnitToEnd(&list, merge);
-//			++numOfUnits;
-//		}
-//		//MultiPrintList(&list);
-//	}
-//	printf("\n-----------------------  合并节点 End -----------------------\n");
-//
-//	printf("\n\n------- 打印node 节点 nodeNum:%d -------------\n", nodeNum);
-//	for (uint32_t i = 0; i < nodeNum; i++) {
-//		printf("nodes[%d] count: %d(child:%d), type:%d,  data:%x \n", i, (nodes + i)->frequcey, (nodes + i)->childIndex, (nodes + i)->type, (nodes + i)->data);
-//	}
-//	//编码
-//	Coding(nodes, nodeNum, inDataLen, datas);
-//}
 
 struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 
@@ -226,11 +71,9 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 			no_empty_size++;
 		}
 	}
-	printf("\n-----------------------  构建链表 Start -----------------------\n");
+
 	//构建链表
 	printf("非空数据大小 %d   --- Len: %d\n", no_empty_size, inDataLen);
-
-
 	struct LinkList list = CreateList(no_empty_size);
 	Node* nodes = (Node*)calloc(sizeof(Node) * no_empty_size * 2, 1);
 	Node* node = NULL;
@@ -266,10 +109,6 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 			break;
 		}
 	}
-
-	printf("\n-----------------------  构建链表 End -----------------------\n");
-
-	printf("\n-----------------------  合并节点 Start -----------------------\n");
 
 	//合并插入到原链表
 	struct ListUnit* first = list.firstunit;//链表头元素
@@ -403,7 +242,7 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 	BitArrayPush(bitArr, header.byteCount, header_byteCount * 8);
 
 	printf("nodeNum:%d -- header.byteCount:%d -- contentBitsLen:%d\n", nodeNum, header.byteCount, contentBitsLen);
-	printf("\nheaderPush over\n");
+
 
 	//将树信息压入位数组
 	for (uint32_t i = 0; i < nodeNum; i++)
@@ -427,7 +266,7 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 		//printf("]");
 	}
 
-	printf("\n\n--------------- 压入content位数据 End --------------\n\n");
+	//printf("\n\n--------------- 压入content位数据 End --------------\n\n");
 
 	bitsBuf = 0;
 	//原文数据压入位数组 不定长度的位信息
@@ -438,12 +277,9 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 		/*printf("\nlen[%d]:code:%d value:%x[", i, bitsBuf, datas[i]);
 		printBits(bitsBuf, codes[datas[i]].len);
 		printf("]");*/
-
 	}
-	printf("\n--------------- 压入位数据 End --------------\n");
 
-
-	printf("\n--------------- 打印位串 --------------\n");
+	//printf("\n--------------- 打印位串 --------------\n");
 	//printf("bitArr len: %d\n", bitArr->len);
 	//for (size_t i = 0; i < bitArr->max; i++)
 	//{
@@ -463,7 +299,7 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 /// <param name="bitArr"></param>
 /// <param name="inOffset"></param>
 /// <param name="inContentBitLens"></param>
-void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray* bitArr, uint32_t inOffset, uint32_t bytesCount, uint8_t* outData) {
+void _DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray* bitArr, uint32_t inOffset, uint32_t bytesCount, uint8_t* outData) {
 	uint8_t readbit = 0;
 	Node* nodes = inNodes;
 	uint32_t offset = inOffset;
@@ -556,7 +392,7 @@ uint8_t* Decoding(struct bitArray* bitArr) {
 	uint8_t* outData = (uint8_t*)malloc(header_read.byteCount);
 
 	//内存中数据解析
-	DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.byteCount, outData);
+	_DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.byteCount, outData);
 
 	free(readNodes);
 	return outData;
@@ -645,7 +481,7 @@ uint8_t* DecodeFromFile() {
 	//总字节数
 	printf("\nheader_read_file.nodesNum:%d\n", header_read_file.nodesNum);
 	printf("\nheader_read_file.byteCount:%d\n", header_read_file.byteCount);
-	return;
+
 	//总数据指针 内容的位信息从文件中读取后再操作
 
 	uint32_t buf = 0;
@@ -675,6 +511,7 @@ uint8_t* DecodeFromFile() {
 	FILE* writeStream = fopen(fw, "wb");
 
 	fwrite(outDatas, 1, header_read_file.byteCount, writeStream);
+	fclose(writeStream);
 	return outDatas;
 }
 

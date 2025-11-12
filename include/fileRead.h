@@ -5,3 +5,7 @@
 
 /*Èë¿Ú*/
 void FileReadTest();
+
+void doCompress(const char* outPath);
+
+void doDeCompress();

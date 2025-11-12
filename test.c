@@ -22,7 +22,11 @@ int main() {
 	//MapTest();
 
 	// ±‡Ω‚¬Î≤‚ ‘
-	FileReadTest();
 	//DecodeFromFile();
 	
+
+	/*const char* file = "C:\\Users\\DRF\\Desktop\\Temp\\Angelique.bin";
+	doCompress(file);
+	doDeCompress();*/
+	FileReadTest();
 }

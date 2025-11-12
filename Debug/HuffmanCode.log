@@ -1,17 +1,5 @@
-﻿  coding.c
-D:\QXY\cpp\CODEC\src\coding.c(309,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
-D:\QXY\cpp\CODEC\src\coding.c(323,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
-D:\QXY\cpp\CODEC\src\coding.c(373,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
-D:\QXY\cpp\CODEC\src\coding.c(373,35): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
-D:\QXY\cpp\CODEC\src\coding.c(374,45): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
-D:\QXY\cpp\CODEC\src\coding.c(374,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
-D:\QXY\cpp\CODEC\src\coding.c(626,3): warning C4033: “DecodeFromFile”必须返回值
-D:\QXY\cpp\CODEC\src\coding.c(630,2): warning C4033: “DecodeFromFile”必须返回值
-D:\QXY\cpp\CODEC\src\coding.c(648,2): warning C4033: “DecodeFromFile”必须返回值
-  fileRead.c
-D:\QXY\cpp\CODEC\src\fileRead.c(30,13): warning C4013: “time”未定义；假设外部返回 int
-D:\QXY\cpp\CODEC\src\fileRead.c(33,24): warning C4018: “<”: 有符号/无符号不匹配
-D:\QXY\cpp\CODEC\src\fileRead.c(49,24): warning C4018: “<”: 有符号/无符号不匹配
-  正在生成代码...
-D:\QXY\cpp\CODEC\src\coding.c(679): warning C4715: “DecodeFromFile”: 不是所有的控件路径都返回值
+﻿  fileRead.c
+D:\QXY\cpp\CODEC\src\fileRead.c(62,37): warning C4047: “函数”:“bitArray *”与“uint8_t **”的间接级别不同
+D:\QXY\cpp\CODEC\src\fileRead.c(62,30): warning C4024: “Decoding”: 形参和实参 1 的类型不同
+D:\QXY\cpp\CODEC\src\fileRead.c(115,24): warning C4018: “<”: 有符号/无符号不匹配
   HuffmanCode.vcxproj -> D:\QXY\cpp\CODEC\Debug\HuffmanCode.exe

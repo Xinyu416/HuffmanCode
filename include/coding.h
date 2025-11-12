@@ -14,6 +14,7 @@
 #include "../include/bitoperate.h"
 
 #define datasize 256
+#define XXDATAMAX 536870911
 
 typedef struct unit {
 	uint32_t frequency;
@@ -46,16 +47,19 @@ struct DataHeader {
 	uint16_t block[1];
 };
 
+struct FileHeader {
+	uint16_t type;
+	uint32_t compressSize;
+	uint32_t originSize;
+};
 
 void GenerateCode(Node* nodes, Node* node, uint32_t bit, Code* codes, Code c, uint32_t indent);
 
 void PrintTree(Node* nodes, Node* node, uint32_t indent);
 
-//void CollectData(const uint8_t* content, uint32_t len);
-
 struct bitArray Coding(const uint8_t* content, uint32_t len);
 
-void DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray* bitArr, uint32_t inOffset, uint32_t inContentBitLens,uint8_t*outData);
+void _DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArray* bitArr, uint32_t inOffset, uint32_t inContentBitLens, uint8_t* outData);
 
 uint8_t* Decoding(struct bitArray* bitArr);
 
