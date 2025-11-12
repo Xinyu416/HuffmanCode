@@ -1,4 +1,4 @@
-#include "../include/coding.h"
+#include "coding.h"
 
 void GenerateCode(Node* nodes, Node* node, uint32_t bit, Code* codes, Code c, uint32_t indent) {
 	indent++;

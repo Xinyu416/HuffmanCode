@@ -1,4 +1,4 @@
-#include "../include/bitoperate.h"
+#include "bitoperate.h"
 #include <math.h>
 
 void printBits(uint32_t data, uint32_t bitlen) {

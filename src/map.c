@@ -1,4 +1,4 @@
-#include "../include/map.h"
+#include "map.h"
 
 
 void TestMultipHash() {

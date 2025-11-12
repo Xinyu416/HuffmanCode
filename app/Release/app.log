@@ -1,0 +1,36 @@
+﻿  bitoprate.c
+  coding.c
+D:\QXY\cpp\CODEC\src\coding.c(136,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
+D:\QXY\cpp\CODEC\src\coding.c(150,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
+D:\QXY\cpp\CODEC\src\coding.c(194,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\CODEC\src\coding.c(194,35): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+D:\QXY\cpp\CODEC\src\coding.c(195,45): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\CODEC\src\coding.c(195,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+  containers.c
+D:\QXY\cpp\CODEC\src\containers.c(95,61): warning C4142: "GetArrayElementByIndex": 类型的良性重定义
+D:\QXY\cpp\CODEC\include\containers.h(48): message : 参见“GetArrayElementByIndex”的声明
+D:\QXY\cpp\CODEC\src\containers.c(253,14): warning C4018: “<=”: 有符号/无符号不匹配
+D:\QXY\cpp\CODEC\src\containers.c(345,13): warning C4022: “myFunction”: 指针与实参 1 不匹配
+D:\QXY\cpp\CODEC\src\containers.c(345,18): warning C4022: “myFunction”: 指针与实参 2 不匹配
+D:\QXY\cpp\CODEC\src\containers.c(374,1): warning C4047: “初始化”:“uint16_t *”与“int”的间接级别不同
+D:\QXY\cpp\CODEC\src\containers.c(381,1): warning C4047: “初始化”:“uint16_t *”与“int”的间接级别不同
+  fileRead.c
+D:\QXY\cpp\CODEC\src\fileRead.c(122,37): warning C4047: “函数”:“bitArray *”与“uint8_t **”的间接级别不同
+D:\QXY\cpp\CODEC\src\fileRead.c(122,30): warning C4024: “Decoding”: 形参和实参 1 的类型不同
+D:\QXY\cpp\CODEC\src\fileRead.c(176,24): warning C4018: “<”: 有符号/无符号不匹配
+  linklist.c
+  map.c
+D:\QXY\cpp\CODEC\src\map.c(16,36): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(50,30): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(50,33): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(50,37): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(50,38): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+D:\QXY\cpp\CODEC\src\map.c(286,13): warning C4013: “time”未定义；假设外部返回 int
+D:\QXY\cpp\CODEC\src\map.c(327,1): warning C4047: “初始化”:“uint32_t”与“uint32_t *”的间接级别不同
+  readBMP.c
+  app.c
+  正在生成代码
+  Previous IPDB not found, fall back to full compilation.
+  All 23 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  app.vcxproj -> D:\QXY\cpp\CODEC\Release\app.exe

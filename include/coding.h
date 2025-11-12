@@ -10,11 +10,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <math.h>
-#include "../include/linklist.h"
-#include "../include/bitoperate.h"
+#include "linklist.h"
+#include "bitoperate.h"
 
 #define datasize 256
 #define XXDATAMAX 536870911
+#define APP_VERSION "v0.0.1"
 
 typedef struct unit {
 	uint32_t frequency;
@@ -51,6 +52,7 @@ struct FileHeader {
 	uint16_t type;
 	uint32_t compressSize;
 	uint32_t originSize;
+	char ext[16];
 };
 
 void GenerateCode(Node* nodes, Node* node, uint32_t bit, Code* codes, Code c, uint32_t indent);

@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include "../include/readBMP.h"
-#include "../include/coding.h"
+#include "readBMP.h"
+#include "coding.h"
 
 void ReadBMPFile() {
 	//read .wav .bmp

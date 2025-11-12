@@ -1,5 +1,5 @@
 #pragma once
-#include"../include/linklist.h"
+#include"linklist.h"
 
 struct LinkList CreateList(const uint32_t maxsize) {
 	struct LinkList list = { .firstunit = NULL,.endunit = NULL,.len = 0,.maxSize = maxsize,.idmax = 1 };
