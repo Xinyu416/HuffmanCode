@@ -109,7 +109,7 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 	uint32_t newCount = 0;
 	uint32_t numOfUnits = no_empty_size;
 
-	printf("\nnumOfUnits %d\n", numOfUnits);
+	printf("numOfUnits %d\n", numOfUnits);
 	//MultiPrintList(&list);
 	while (numOfUnits > 1) {
 		//printf("first unit data -- %c ,count:%d\n", first->data, first->count);
@@ -209,7 +209,7 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 	//文件字节数
 	uint32_t fileBytes = (uint32_t)ceilf((float)totalBits / 8.0f);
 
-	printf("totalBits :%d ,fileBytes :%d \n", totalBits, fileBytes);
+	printf("totalBits :%u ,fileBytes :%d \n", totalBits, fileBytes);
 	struct bitArray arr = { .data = (uint8_t*)malloc(fileBytes),.max = fileBytes,.len = 0,.bitlen = 0 };
 	struct bitArray* bitArr = &arr;
 	uint32_t bitsBuf = 0;
@@ -219,8 +219,9 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 	BitArrayPush(bitArr, header.nodesNum, 9);//节点数 9 位 最大 510 9位足够装
 	BitArrayPush(bitArr, header.byteCount, header_byteCount * 8);
 
-	printf("nodeNum:%d -- header.byteCount:%d -- contentBitsLen:%d\n", nodeNum, header.byteCount, contentBitsLen);
+	printf("nodeNum:%d -- header.byteCount:%d -- contentBitsLen:%u\n", nodeNum, header.byteCount, contentBitsLen);
 
+	float progress = 0.0f;
 
 	/*将树信息压入位数组*/
 	for (uint32_t i = 0; i < nodeNum; i++)
@@ -242,6 +243,7 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 			//printBits(node->childIndex, 9);
 		}
 		//printf("]");
+
 	}
 
 	//printf("\n\n--------------- 压入content位数据 End --------------\n\n");
@@ -255,6 +257,13 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 		/*printf("\nlen[%d]:code:%d value:%x[", i, bitsBuf, datas[i]);
 		printBits(bitsBuf, codes[datas[i]].len);
 		printf("]");*/
+
+		/*打印进度 每千字节一个步长*/
+		if ((bitArr->len) % 1000 == 0)
+		{
+			progress = ((float)bitArr->len) / ((float)bitArr->max * 8);
+			printf("compress progress: %.3f\n", progress);
+		}
 	}
 
 	//printf("\n--------------- 打印位串 --------------\n");
@@ -263,6 +272,25 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 	//{
 	//	printBits(bitArr->data[i], 8);
 	//}
+
+	/*验证 压缩的字节再还原与原始对比*/
+	printf("开始比对");
+	uint8_t* outDatas = Decoding(bitArr);
+	for (size_t i = 0; i < inDataLen; i++)
+	{
+		if (datas[i] != outDatas[i]) {
+			printf("比对失败");
+			printf("index = %d\n", i);
+			printf("origin : %x , outDatas : %x \n", datas[i], outDatas[i]);
+			break;
+		}
+		if (i % 1000 == 0)
+		{
+			printf("compair progress：%.3f\n", (float)i / (float)inDataLen);
+		}
+	}
+	printf("比对完成\n");
+	free(outDatas);
 
 	free(nodes);
 	free(list.units);
@@ -318,12 +346,18 @@ void _DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArra
 			//printf("%x,  ", currentNode->data);
 		}
 
+		//进度
+		if (offset % 1000 == 0)
+		{
+			float progress = ((float)offset) / ((float)bitArr->max * 8);
+			printf("uncompress progress: %.3f\n", progress);
+		}
+
 		if (itemCount >= bytesCount)
 		{
 			break;
 		}
 	}
-
 }
 
 uint8_t* Decoding(struct bitArray* bitArr) {

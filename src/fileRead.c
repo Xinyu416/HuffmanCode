@@ -130,6 +130,9 @@ void doDeCompress(const char* path) {
 	free(inData);
 }
 
+/// <summary>
+/// 在内存中的操作 压缩和解压缩 测试
+/// </summary>
 void FileReadTest() {
 
 	const char* file = "C:\\Users\\DRF\\Desktop\\Temp\\Angelique.bin";
