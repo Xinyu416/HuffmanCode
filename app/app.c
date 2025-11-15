@@ -1,5 +1,5 @@
-#include "coding.h"
-#include "fileRead.h"
+#include "codec.h"
+#include "stdio.h"
 
 void apptest() {
 	printf("app test");
@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 	}
 	/*version*/
 	if (strcmp(argv[1], "-v") == 0) {
-		printf("%s", APP_VERSION);
+		//printf("%s", APP_VERSION);
 		return 0;
 	}
 
@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 			return;
 		}
 		printf("run compress mode");
-		doCompress(argv[2]);
+		Compress(argv[2]);
 		return 0;
 	}
 
@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
 			return;
 		}
 		printf("run uncompress mode");
-		doDeCompress(argv[2]);
+		UnCompress(argv[2]);
 		return 0;
 	}
 	Help();

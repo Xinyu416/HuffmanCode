@@ -91,7 +91,7 @@ void doDeCompress(const char* path) {
 	//读文件
 	//const char* inPath = "C:\\Users\\DRF\\Desktop\\Temp\\fcoding.xx";
 	FILE* readStream = fopen(path, "rb");
-	struct FileHeader fheader = { .type = 0,.compressSize = 0,.originSize = 0};
+	struct FileHeader fheader = { .type = 0,.compressSize = 0,.originSize = 0 };
 	fread(&fheader, sizeof(struct FileHeader), 1, readStream);
 	printf("file header:: type:%x,compressSize:%d,originSize:%d\n", fheader.type, fheader.compressSize, fheader.originSize);
 
@@ -118,8 +118,9 @@ void doDeCompress(const char* path) {
 	printf("path comp: '%s' '%s' '%s' '%s'\n", ext, shortname, filename, dir);
 	printf("output:'%s'\n", output);
 
+	struct bitArray bitArr = { .data = inData,.len = fheader.compressSize * 8,.max = fheader.compressSize };
 	//解压文件
-	uint8_t* outData = Decoding(&inData);
+	uint8_t* outData = Decoding(&bitArr);
 
 	//写出数据
 	//const char* outPath = "C:\\Users\\DRF\\Desktop\\Temp\\fDecoding.xx";

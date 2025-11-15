@@ -1,1 +1,14 @@
-﻿  CodecDll.vcxproj -> D:\QXY\cpp\CODEC\Release\CodecDll.dll
+﻿  coding.c
+D:\QXY\cpp\CODEC\src\coding.c(136,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
+D:\QXY\cpp\CODEC\src\coding.c(150,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
+D:\QXY\cpp\CODEC\src\coding.c(194,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\CODEC\src\coding.c(194,35): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+D:\QXY\cpp\CODEC\src\coding.c(195,45): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\CODEC\src\coding.c(195,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+    正在创建库 D:\QXY\cpp\CODEC\Release\CodecDll.lib 和对象 D:\QXY\cpp\CODEC\Release\CodecDll.exp
+  正在生成代码
+  5 of 24 functions (20.8%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  CodecDll.vcxproj -> D:\QXY\cpp\CODEC\Release\CodecDll.dll

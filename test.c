@@ -9,12 +9,12 @@
 #include "map.h"
 #include "readBMP.h"
 #include "fileRead.h"
-#include "myDllTest.h"
 
 int main() {
-	/*const char* file = "C:\\Users\\DRF\\Desktop\\Temp\\Angelique.bin";
-	doCompress(file);*/
-	//doDeCompress();
+	printf("test main");
+
+	const char* file = "C:\\Users\\DRF\\Desktop\\Temp\\test.xx";
+	//doCompress(file);
+	doDeCompress(file);
 	//FileReadTest();
-	hello(221);
 }

@@ -1,8 +1,15 @@
-﻿  test.c
+﻿  coding.c
+D:\QXY\cpp\CODEC\src\coding.c(136,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
+D:\QXY\cpp\CODEC\src\coding.c(150,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
+D:\QXY\cpp\CODEC\src\coding.c(194,41): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\CODEC\src\coding.c(194,35): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
+D:\QXY\cpp\CODEC\src\coding.c(195,45): warning C4047: “函数”:“Code *”与“Code (*)[256]”的间接级别不同
+D:\QXY\cpp\CODEC\src\coding.c(195,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
   正在生成代码
-  0 of 2 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+  4 of 9 functions (44.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成
   HuffmanCode.vcxproj -> D:\QXY\cpp\CODEC\Release\HuffmanCode.exe
-  复制了 0 个文件
+  D:\QXY\cpp\DllTest\Debug\DllTest.dll
+  复制了 1 个文件

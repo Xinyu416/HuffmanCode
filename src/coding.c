@@ -297,6 +297,57 @@ struct bitArray Coding(const uint8_t* content, uint32_t inDataLen) {
 	return arr;
 }
 
+uint8_t* Decoding(struct bitArray* bitArr) {
+	//内容中读取数据
+	//printf("\n\n-------------------------------- 内存中读取数据  Start -------------------------------------");
+	struct DataHeader header_read = { .nodesNum = 0,.byteCount = 0 };
+	uint32_t offset = 0;
+	uint32_t buf = 0;
+	uint8_t type = 0;
+	uint16_t outdata = 0;
+
+	//读取头数据
+	header_read.nodesNum = (uint16_t)BitArrayPop(bitArr, 9, offset); offset += 9;
+	//printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
+
+	header_read.byteCount = BitArrayPop(bitArr, sizeof(header_read.byteCount) * 8, offset);
+	offset += sizeof(header_read.byteCount) * 8;
+	//printf("\nheader_read.byteCount：%d\n", header_read.byteCount);
+
+	//printf("current offset：%d\n", offset);
+
+	Node* readNodes = (Node*)malloc(header_read.nodesNum * sizeof(Node));
+	for (uint32_t i = 0; i < header_read.nodesNum; i++)
+	{
+		//按9位取数据
+		type = BitArrayPop(bitArr, 1, offset); offset += 1;
+		readNodes[i].type = type;
+
+		//叶节点
+		if (type == 0) {
+			readNodes[i].data = BitArrayPop(bitArr, 9, offset); offset += 9;
+			readNodes[i].childIndex = 0;
+		}
+		else {
+			readNodes[i].childIndex = BitArrayPop(bitArr, 9, offset); offset += 9;
+			readNodes[i].data = 0;
+		}
+		//printf("outdata %x \n", outdata);
+	}
+	/*printf("\noffset：%d\n", offset);
+	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
+	printf("\nheader_read.byteCount：%d\n", header_read.byteCount);*/
+
+	uint8_t* outData = (uint8_t*)malloc(header_read.byteCount);
+
+	//内存中数据解析
+	_DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.byteCount, outData);
+
+	free(readNodes);
+	return outData;
+
+}
+
 /// <summary>
 /// 按位解码数据
 /// </summary>
@@ -349,7 +400,8 @@ void _DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArra
 		//进度
 		if (offset % 1000 == 0)
 		{
-			float progress = ((float)offset) / ((float)bitArr->max * 8);
+			//printf("offset:%d,bitArr->len:%d\n",offset,bitArr->len);
+			float progress = ((float)offset) / ((float)bitArr->len);
 			printf("uncompress progress: %.3f\n", progress);
 		}
 
@@ -358,55 +410,4 @@ void _DecodeContentData_Context(Node* inNodes, uint16_t nodesNum, struct bitArra
 			break;
 		}
 	}
-}
-
-uint8_t* Decoding(struct bitArray* bitArr) {
-	//内容中读取数据
-	//printf("\n\n-------------------------------- 内存中读取数据  Start -------------------------------------");
-	struct DataHeader header_read = { .nodesNum = 0,.byteCount = 0 };
-	uint32_t offset = 0;
-	uint32_t buf = 0;
-	uint8_t type = 0;
-	uint16_t outdata = 0;
-
-	//读取头数据
-	header_read.nodesNum = (uint16_t)BitArrayPop(bitArr, 9, offset); offset += 9;
-	//printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
-
-	header_read.byteCount = BitArrayPop(bitArr, sizeof(header_read.byteCount) * 8, offset);
-	offset += sizeof(header_read.byteCount) * 8;
-	//printf("\nheader_read.byteCount：%d\n", header_read.byteCount);
-
-	//printf("current offset：%d\n", offset);
-
-	Node* readNodes = (Node*)malloc(header_read.nodesNum * sizeof(Node));
-	for (uint32_t i = 0; i < header_read.nodesNum; i++)
-	{
-		//按9位取数据
-		type = BitArrayPop(bitArr, 1, offset); offset += 1;
-		readNodes[i].type = type;
-
-		//叶节点
-		if (type == 0) {
-			readNodes[i].data = BitArrayPop(bitArr, 9, offset); offset += 9;
-			readNodes[i].childIndex = 0;
-		}
-		else {
-			readNodes[i].childIndex = BitArrayPop(bitArr, 9, offset); offset += 9;
-			readNodes[i].data = 0;
-		}
-		//printf("outdata %x \n", outdata);
-	}
-	/*printf("\noffset：%d\n", offset);
-	printf("\nheader_read.nodesNum：%d\n", header_read.nodesNum);
-	printf("\nheader_read.byteCount：%d\n", header_read.byteCount);*/
-
-	uint8_t* outData = (uint8_t*)malloc(header_read.byteCount);
-
-	//内存中数据解析
-	_DecodeContentData_Context(readNodes, header_read.nodesNum, bitArr, offset, header_read.byteCount, outData);
-
-	free(readNodes);
-	return outData;
-
 }

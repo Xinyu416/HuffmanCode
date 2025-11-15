@@ -1,5 +1,4 @@
-﻿  pch.cpp
-  bitoprate.c
+﻿  bitoprate.c
   coding.c
 D:\QXY\cpp\CODEC\src\coding.c(136,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
 D:\QXY\cpp\CODEC\src\coding.c(150,25): warning C4244: “=”: 从“uint16_t”转换到“uint8_t”，可能丢失数据
@@ -9,7 +8,7 @@ D:\QXY\cpp\CODEC\src\coding.c(195,45): warning C4047: “函数”:“Code *”�
 D:\QXY\cpp\CODEC\src\coding.c(195,39): warning C4024: “GenerateCode”: 形参和实参 4 的类型不同
   containers.c
 D:\QXY\cpp\CODEC\src\containers.c(95,61): warning C4142: "GetArrayElementByIndex": 类型的良性重定义
-D:\QXY\cpp\CODEC\include\containers.h(48): message : 参见“GetArrayElementByIndex”的声明
+D:\QXY\cpp\CODEC\include\containers.h(58): message : 参见“GetArrayElementByIndex”的声明
 D:\QXY\cpp\CODEC\src\containers.c(253,14): warning C4018: “<=”: 有符号/无符号不匹配
 D:\QXY\cpp\CODEC\src\containers.c(345,13): warning C4022: “myFunction”: 指针与实参 1 不匹配
 D:\QXY\cpp\CODEC\src\containers.c(345,18): warning C4022: “myFunction”: 指针与实参 2 不匹配
@@ -31,7 +30,6 @@ D:\QXY\cpp\CODEC\src\map.c(327,1): warning C4047: “初始化”:“uint32_t”
   readBMP.c
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winbase.h(9572,5): warning C5105: 生成“已定义”的宏扩展具有未定义的行为
   codec.c
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winbase.h(9572,5): warning C5105: 生成“已定义”的宏扩展具有未定义的行为
   正在生成代码...
   dllmain.cpp
     正在创建库 D:\QXY\cpp\CODEC\Debug\CodecDll.lib 和对象 D:\QXY\cpp\CODEC\Debug\CodecDll.exp
